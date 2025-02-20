@@ -10,6 +10,12 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+@theme {
+  --color-cneutral1: #FCFBFC;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   *,
   ::after,
@@ -21,5 +27,13 @@
 }
 
 body {
-  @apply font-sans text-neutral-800 ;
+  @apply font-sans text-neutral-800 dark:text-neutral-200; ;
+}
+
+.google-maps {
+  filter: grayscale(100%) invert(92%) contrast(83%);
+}
+
+button {
+  @apply cursor-pointer;
 }

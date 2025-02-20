@@ -1,7 +1,7 @@
 <x-main-layout>
     <x-slot name="title">{{ $title }}</x-slot>
 
-    <section class="pb-24">
+    <section class="pb-24 bg-white dark:bg-neutral-950 mt-4">
         @php
             $teamMembers = [
                 [
@@ -62,7 +62,7 @@
         <x-container>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach ($teamMembers as $index => $member)
-                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6">
+                    <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
                         <div class="flex flex-wrap -mx-3">
                             <!-- Profile Image -->
                             <div class="mb-4 relative w-full sm:w-1/3">
@@ -70,11 +70,11 @@
                                     class="rounded-lg w-full object-cover max-h-52">
                             </div>
 
-                            <div class="w-full sm:w-2/3 px-3">
+                            <div class="w-full sm:w-2/3 p-6">
                                 <!-- Info -->
-                                <h3 class="text-lg font-semibold text-neutral-900 mb-1">{{ $member['name'] }}</h3>
-                                <p class="text-sm text-red-600 font-medium mb-3">{{ $member['role'] }}</p>
-                                <p class="text-neutral-600 text-sm leading-relaxed mb-4">{{ $member['description'] }}
+                                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-200 mb-1">{{ $member['name'] }}</h3>
+                                <p class="text-sm text-red-600 dark:text-red-500 font-medium mb-3">{{ $member['role'] }}</p>
+                                <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">{{ $member['description'] }}
                                 </p>
 
                                 <!-- Social Media Links -->

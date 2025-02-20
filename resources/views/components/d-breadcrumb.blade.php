@@ -1,6 +1,6 @@
 @props(['class' => ''])
 
-<div class="py-4 bg-white dark:bg-neutral-950 {{ $class }}">
+<div class="mb-6 pt-4 {{ $class }}">
     <x-container>
         <nav class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">

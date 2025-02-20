@@ -48,4 +48,18 @@ class HomeController extends Controller
             'title' => 'Toko Buku',
         ]);
     }
+
+    public function kontak()
+    {
+        return view('home.kontak', [
+            'title' => 'Kontak',
+        ]);
+    }
+
+    public function artikel()
+    {
+        return view('home.artikel', [
+            'title' => 'Artikel',
+        ]);
+    }
 }

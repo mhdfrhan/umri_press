@@ -1,4 +1,4 @@
-<footer class="bg-neutral-900">
+<footer class="bg-neutral-900 dark:border-t dark:border-neutral-900 ">
 	<div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
 	  <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 		 <!-- Company Info -->

@@ -48,24 +48,25 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded-sm border-gray-300 text-indigo-600 shadow-xs focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+        <div class="flex items-center justify-between mt-4">
+            <label for="remember" class="inline-flex items-center cursor-pointer">
+                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded-sm border-gray-300 text-red-600 shadow-xs focus:ring-red-500 duration-200" name="remember">
+                <span class="ms-2 text-sm text-gray-600 select-none">{{ __('Ingat saya') }}</span>
             </label>
+            @if (Route::has('password.request'))
+                <a class="text-sm text-neutral-500 text-center hover:underline block" href="{{ route('password.request') }}" wire:navigate>
+                    {{ __('Lupa password?') }}
+                </a>
+            @endif
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
+            <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>
+        </div>
+        <div class="mt-3">
+            <p class="text-center text-neutral-500 text-sm">Belum memiliki akun? <a href="{{ route('register') }}" class="text-red-600 hover:underline" wire:navigate>Daftar sekarang</a></p>
         </div>
     </form>
 </div>

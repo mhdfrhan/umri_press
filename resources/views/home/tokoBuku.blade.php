@@ -1,7 +1,7 @@
 <x-main-layout>
     <x-slot name="title">{{ $title }}</x-slot>
 
-    <section class="bg-red-500 py-24 bg-center bg-repeat"
+    <section class="bg-red-500 dark:bg-red-800 py-24 bg-center bg-repeat"
         style="background-image: url({{ asset('assets/img/background-buku.svg') }})">
         <x-container>
             <h1 class="text-4xl font-semibold text-white">Selamat Datang di Toko Buku UMRI Press</h1>
@@ -26,14 +26,14 @@
         <x-container>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
 					@for ($i = 0; $i < 8; $i++)	 
-					<div class="shadow-sm hover:shadow-xl p-6 duration-300 transition-all rounded-xl shadow-neutral-200">
+					<div class="border border-neutral-300 dark:border-neutral-800 p-4 duration-300 transition-all rounded-xl hover:shadow-xl dark:shadow-neutral-900">
 						 <img class="w-full rounded-lg"
 							  src="https://deepublishstore.com/wp-content/uploads/2024/08/2406187_Algoritma-dan-Dasar_Eko-Heri-Susanto-rev-1.0-percepatan-depan-scaled.jpg" alt="" loading="lazy">
 						 <div class="mt-4 text-center">
-							  <a href="#" class="text-xl font-semibold text-neutral-800 line-clamp-2 hover:text-red-500 duration-200">
+							  <a href="#" class="text-xl font-semibold text-neutral-800 dark:text-neutral-200 line-clamp-2 hover:text-red-500 duration-200">
 									Ini adalah jduul buku
 							  </a>
-							  <p class="mt-1 text-sm text-neutral-400">
+							  <p class="mt-1 text-sm text-neutral-400 dark:text-neutral-500">
 									Oleh Muhammad Farhan
 							  </p>
 							  <div class="mt-4">

@@ -1,11 +1,22 @@
 @props(['active'])
 
 @php
-$classes = ($active ?? false)
-            ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-hidden focus:border-indigo-700 transition duration-150 ease-in-out'
-            : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-hidden focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
+    $classes =
+        $active ?? false
+            ? 'inline-flex items-center py-2.5 px-3 rounded-xl font-medium bg-white dark:bg-neutral-900 dark:border-neutral-800 border border-neutral-300 w-full relative'
+            : 'inline-flex items-center py-2.5 px-3 rounded-xl font-medium leading-5 text-neutral-600 hover:text-neutral-800 hover:bg-white border border-transparent hover:border-neutral-300 w-full focus:outline-none transition duration-150 ease-in-out relative dark:hover:bg-neutral-900 dark:hover:border-neutral-800 dark:hover:text-neutral-200 dark:text-neutral-400';
 @endphp
 
-<a {{ $attributes->merge(['class' => $classes]) }}>
-    {{ $slot }}
-</a>
+<div class="relative group">
+    @if ($active ?? false)
+        <span class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-red-500 rounded"></span>
+    @else
+        <span
+            class="opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-6 bg-red-500 rounded duration-300"></span>
+    @endif
+    <div class="{{ $active ?? false ? 'pl-4' : 'hover:pl-4' }} duration-300">
+        <a {{ $attributes->merge(['class' => $classes]) }} wire:navigate>
+            {{ $slot }}
+        </a>
+    </div>
+</div>
