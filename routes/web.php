@@ -22,6 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('dashboard');
 
+        // kategori
+        Route::get('/dashboard/kategori/semua-kategori', 'semuaKategori')->name('semuaKategori');
+
         // buku
         Route::get('/dashboard/buku/semua-buku', 'semuaBuku')->name('semuaBuku');
         Route::get('/dashboard/buku/tambah-buku', 'tambahBuku')->name('tambahBuku');

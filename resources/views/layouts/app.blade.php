@@ -11,8 +11,11 @@
     <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -20,7 +23,7 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased bg-cneutral1 dark:bg-neutral-950" onload="startTime()">
+<body class="font-inter antialiased bg-cneutral1 dark:bg-neutral-950" onload="startTime()">
     <div class="min-h-screen p-2">
         <livewire:layout.navigation />
         @include('dashboard.partials.sidebar')

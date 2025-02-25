@@ -9,8 +9,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -23,8 +25,10 @@
                 <div class="w-full max-w-md">
                     <div class="text-center mb-8">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto dark:hidden">
-                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto hidden dark:block">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}"
+                                class="h-14 mx-auto dark:hidden">
+                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="{{ config('app.name') }}"
+                                class="h-14 mx-auto hidden dark:block">
                         </a>
                         <h2 class="mt-6 text-3xl font-bold">Selamat Datang Kembali!</h2>
                         <p class="mt-2 text-neutral-600">Silahkan masuk untuk melanjutkan</p>
@@ -48,8 +52,10 @@
                 <div class="w-full max-w-md">
                     <div class="text-center mb-8">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto dark:hidden">
-                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto hidden dark:block">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}"
+                                class="h-14 mx-auto dark:hidden">
+                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="{{ config('app.name') }}"
+                                class="h-14 mx-auto hidden dark:block">
                         </a>
                         <h2 class="mt-6 text-3xl font-bold">Selamat Datang di {{ config('app.name') }}</h2>
                         <p class="mt-2 text-neutral-600">Silahkan daftar untuk melanjutkan</p>

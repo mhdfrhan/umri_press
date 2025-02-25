@@ -97,53 +97,117 @@
                 @enderror
             </div>
 
-            <!-- ISBN -->
-            <div>
-                <x-input-label class="block mb-2">
-                    ISBN
-                </x-input-label>
-                <x-text-input type="text" wire:model="isbn" class="block w-full" placeholder="978-0-123456-47-2" />
-                @error('isbn')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Harga -->
-            <div>
-                <x-input-label class="block mb-2">
-                    Harga
-                </x-input-label>
-                <div class="mt-1 relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span class="text-neutral-500 sm:text-sm">Rp</span>
-                    </div>
-                    <x-text-input type="number" wire:model="harga" class="pl-12 w-full block" placeholder="0" />
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <!-- Kategori -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Kategori
+                    </x-input-label>
+                    <select wire:model="kategori_id"
+                        class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-red-500 focus:ring-red-500">
+                        <option value="">Pilih kategori...</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('kategori_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
-                @error('harga')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
+
+                <!-- Penulis -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Penulis
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="penulis" class="w-full block" placeholder="Nama penulis" />
+                    @error('penulis')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Institusi -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Institusi
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="institusi" class="w-full block"
+                        placeholder="Nama institusi (opsional)" />
+                    @error('institusi')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- ISBN -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        ISBN
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="isbn" class="block w-full"
+                        placeholder="978-0-123456-47-2" />
+                    @error('isbn')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Harga -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Harga
+                    </x-input-label>
+                    <div class="mt-1 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-neutral-500 sm:text-sm">Rp</span>
+                        </div>
+                        <x-text-input type="number" wire:model="harga" class="pl-12 w-full block" placeholder="0" />
+                    </div>
+                    @error('harga')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Jumlah Halaman -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Jumlah Halaman
+                    </x-input-label>
+                    <x-text-input type="number" wire:model="jumlah_halaman" class="w-full block" placeholder="100" />
+                    @error('jumlah_halaman')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Tanggal Terbit -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Tanggal Terbit
+                    </x-input-label>
+                    <x-text-input type="date" wire:model="tanggal_terbit" class="w-full block" />
+                    @error('tanggal_terbit')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Ukuran -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Ukuran
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="ukuran" class="w-full block"
+                        placeholder="Contoh: 17.5 x 25 cm" />
+                    @error('ukuran')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
-            <!-- Jumlah Halaman -->
-            <div>
-                <x-input-label class="block mb-2">
-                    Jumlah Halaman
-                </x-input-label>
-                <x-text-input type="number" wire:model="jumlah_halaman" class="w-full block" placeholder="100" />
-                @error('jumlah_halaman')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Tanggal Terbit -->
-            <div>
-                <x-input-label class="block mb-2">
-                    Tanggal Terbit
-                </x-input-label>
-                <x-text-input type="date" wire:model="tanggal_terbit" class="w-full block" />
-                @error('tanggal_terbit')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
+            <!-- Ketersediaan -->
+            <div class="mt-4">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" wire:model="ketersediaan"
+                        class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                    <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tersedia</span>
+                </label>
             </div>
 
             <!-- Marketplace Links -->
@@ -281,13 +345,11 @@
 
     @push('scripts')
         <script>
-            // Define window namespace for cropper functionality
             window.ImageCropperManager = {
                 cropper: null,
                 originalFile: null,
 
                 initCropper() {
-                    // Define all methods on the ImageCropperManager object
                     window.openCropper = (event) => {
                         this.originalFile = event.target.files[0];
 
@@ -331,7 +393,6 @@
                     window.cropImage = () => {
                         if (!this.cropper) return;
 
-                        // Create promises for both sizes
                         const generateImage = (width, height, quality = 0.9) => {
                             return new Promise((resolve) => {
                                 const canvas = this.cropper.getCroppedCanvas({
@@ -351,32 +412,25 @@
                             });
                         };
 
-                        // Generate both sizes
                         Promise.all([
-                            // Thumbnail version (300x450) with higher compression
                             generateImage(300, 450, 0.7),
-                            // Full size version (600x900)
                             generateImage(600, 900, 0.9)
                         ]).then(([thumbnailFile, fullSizeFile]) => {
-                            // Create FormData to send multiple files
-                            const formData = new FormData();
-                            formData.append('thumbnail', thumbnailFile);
-                            formData.append('cover', fullSizeFile);
-
-                            // Upload both files using Livewire
                             @this.upload('cover', fullSizeFile,
                                 (uploadedFilename) => {
-                                    // Upload thumbnail after main image
                                     @this.upload('thumbnail', thumbnailFile,
                                         (thumbnailFilename) => {
-                                            this.closeCropModal();
-
-                                            // Update preview with thumbnail version
                                             const previewImage = document.getElementById(
                                             'previewImage');
                                             if (previewImage) {
                                                 previewImage.src = URL.createObjectURL(thumbnailFile);
                                             }
+
+                                            window.dispatchEvent(new CustomEvent('close-modal', {
+                                                detail: 'cropperModal'
+                                            }));
+
+                                            this.cleanup();
                                         },
                                         (error) => {
                                             console.error('Thumbnail upload failed:', error);
@@ -387,9 +441,6 @@
                                 (error) => {
                                     console.error('Cover upload failed:', error);
                                     alert('Failed to upload cover image. Please try again.');
-                                },
-                                (progress) => {
-                                    console.log('Upload progress:', progress);
                                 }
                             );
                         });
@@ -416,45 +467,41 @@
                 }
             };
 
-            // Initial setup
             window.ImageCropperManager.initCropper();
 
-            // Setup for Livewire navigation
             document.addEventListener('livewire:navigated', () => {
                 window.ImageCropperManager.initCropper();
             });
 
-            // Cleanup
             document.addEventListener('livewire:navigating', () => {
                 window.ImageCropperManager.cleanup();
             });
         </script>
 
         <script>
-            // Create a namespace for our editor functionality
             window.EditorManager = {
                 editors: {},
 
                 init() {
-                    // Wait for Quill to be available
                     if (typeof Quill === 'undefined') {
                         setTimeout(() => this.init(), 100);
                         return;
                     }
 
-                    // Get Livewire component instance
-                    const component = window.Livewire.find(
-                        document.querySelector('[wire\\:id]')?.getAttribute('wire:id')
-                    );
-
-                    if (!component) {
-                        console.warn('Livewire component not found');
+                    if (!document.getElementById('deskripsi') || !document.getElementById('sinopsis')) {
+                        setTimeout(() => this.init(), 100);
                         return;
                     }
 
-                    // Only initialize if editors don't already exist
-                    const existingEditors = document.querySelectorAll('.ql-toolbar');
-                    if (existingEditors.length > 0) {
+                    const wireEl = document.querySelector('[wire\\:id]');
+                    if (!wireEl) {
+                        console.warn('No Livewire component found');
+                        return;
+                    }
+
+                    const component = Livewire.find(wireEl.getAttribute('wire:id'));
+                    if (!component) {
+                        console.warn('Could not find Livewire component instance');
                         return;
                     }
 
@@ -483,55 +530,53 @@
                         placeholder: 'Tulis konten disini...'
                     };
 
-                    // Initialize editors
-                    this.initializeEditor('deskripsi', quillConfig, component);
-                    this.initializeEditor('sinopsis', quillConfig, component);
+                    if (!this.editors.deskripsi) {
+                        this.initializeEditor('deskripsi', quillConfig, component);
+                    }
+                    if (!this.editors.sinopsis) {
+                        this.initializeEditor('sinopsis', quillConfig, component);
+                    }
                 },
 
                 initializeEditor(id, config, component) {
                     const element = document.getElementById(id);
                     if (!element) return;
 
-                    // Skip if editor already exists for this element
-                    if (element.querySelector('.ql-editor')) return;
+                    const existingToolbar = element.parentNode.querySelector('.ql-toolbar');
+                    if (existingToolbar) {
+                        existingToolbar.remove();
+                    }
 
                     const editor = new Quill(`#${id}`, config);
 
                     editor.on('text-change', () => {
-                        component.set(id, editor.root.innerHTML);
+                        const content = editor.root.innerHTML.trim();
+                        component.dispatch('set-' + id, {
+                            content
+                        });
                     });
 
-                    // Set initial content if exists
-                    if (component.get(id)) {
-                        editor.root.innerHTML = component.get(id);
-                    }
-
-                    // Store editor instance
                     this.editors[id] = editor;
                 },
 
                 cleanup() {
-                    if (Object.keys(this.editors).length > 0) {
-                        Object.values(this.editors).forEach(editor => {
-                            if (editor && editor.container) {
-                                const parent = editor.container.parentNode;
-                                if (parent) {
-                                    const toolbar = parent.querySelector('.ql-toolbar');
-                                    if (toolbar) toolbar.remove();
-                                }
+                    Object.values(this.editors).forEach(editor => {
+                        if (editor && editor.container) {
+                            const parent = editor.container.parentNode;
+                            if (parent) {
+                                const toolbar = parent.querySelector('.ql-toolbar');
+                                if (toolbar) toolbar.remove();
                             }
-                        });
-                        this.editors = {};
-                    }
+                        }
+                    });
+                    this.editors = {};
                 }
             };
 
-            // Initialize on first load
             document.addEventListener('livewire:initialized', () => {
                 setTimeout(() => window.EditorManager.init(), 100);
             });
 
-            // Handle navigation
             document.addEventListener('livewire:navigating', () => window.EditorManager.cleanup());
             document.addEventListener('livewire:navigated', () => {
                 setTimeout(() => window.EditorManager.init(), 100);

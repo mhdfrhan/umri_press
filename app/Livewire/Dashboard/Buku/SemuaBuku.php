@@ -11,6 +11,7 @@ class SemuaBuku extends Component
 {
     use WithPagination;
 
+    public $selectedBook = null;
     public $search = '';
     public $sortBy = 'newest';
     public $status = '';
@@ -26,6 +27,9 @@ class SemuaBuku extends Component
     public function mount()
     {
         $this->trashCount = Buku::onlyTrashed()->count();
+        $this->dispatch('on', 'close-modal', function () {
+            $this->selectedBook = null;
+        });
     }
 
     public function getBooks()
@@ -103,6 +107,11 @@ class SemuaBuku extends Component
         $this->dispatch('close-modal', 'confirmDelete');
     }
 
+    public function showDetail($slug)
+    {
+        $this->selectedBook = Buku::where('slug', $slug)->first();
+        $this->dispatch('open-modal', 'detailModal');
+    }
 
     public function edit($id)
     {

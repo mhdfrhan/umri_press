@@ -14,6 +14,13 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function semuaKategori()
+    {
+        return view('dashboard.kategori.semua-kategori', [
+            'title' => 'Semua Kategori',
+        ]);
+    }
+
     public function semuaBuku()
     {
         return view('dashboard.buku.semua-buku', [

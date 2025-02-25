@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Buku;
 
 use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -28,11 +29,21 @@ class Tambah extends Component
     public $tempImage;
     public $naskahList;
     public $draft;
+    public $kategori_id;
+    public $penulis;
+    public $institusi;
+    public $ukuran;
+    public $ketersediaan = true;
+    public $categories;
     public $marketplaces = [
         'shopee' => ['active' => false, 'link' => ''],
         'tokopedia' => ['active' => false, 'link' => ''],
         'bukalapak' => ['active' => false, 'link' => ''],
         'lazada' => ['active' => false, 'link' => ''],
+    ];
+    protected $listeners = [
+        'set-deskripsi' => 'setDeskripsi',
+        'set-sinopsis' => 'setSinopsis'
     ];
 
     protected function rules()
@@ -46,6 +57,10 @@ class Tambah extends Component
             'sinopsis' => 'required|min:100',
             'isbn' => 'required|unique:buku,isbn',
             'harga' => 'required|numeric|min:10000',
+            'penulis' => 'required|string|min:3',
+            'institusi' => 'nullable|string',
+            'ukuran' => 'required|string',
+            'ketersediaan' => 'boolean',
             'jumlah_halaman' => 'required|integer|min:1',
             'tanggal_terbit' => 'required|date',
             'draft' => 'nullable|boolean',
@@ -93,7 +108,16 @@ class Tambah extends Component
         'tanggal_terbit.date' => 'Tanggal terbit buku harus berupa tanggal.',
         'marketplaces.*.link.required' => 'Link marketplace harus diisi.',
         'marketplaces.*.link.url' => 'Link marketplace harus berupa URL yang valid.',
+        'kategori_id.required' => 'Kategori harus dipilih.',
+        'penulis.required' => 'Nama penulis harus diisi.',
+        'penulis.min' => 'Nama penulis minimal 3 karakter.',
+        'ukuran.required' => 'Ukuran buku harus diisi.',
     ];
+
+    public function mount()
+    {
+        $this->categories = Kategori::all();
+    }
 
     public function updatedJudul($value)
     {
@@ -108,6 +132,16 @@ class Tambah extends Component
         }
 
         $this->slug = $slug;
+    }
+
+    public function setDeskripsi($content)
+    {
+        $this->deskripsi = $content;
+    }
+
+    public function setSinopsis($content)
+    {
+        $this->sinopsis = $content;
     }
 
     public function save()
@@ -127,12 +161,12 @@ class Tambah extends Component
 
             if ($this->cover) {
                 // Store the full-size cover
-                $coverPath = $this->cover->store('assets/img/covers', 'public');
+                $coverPath = $this->cover->store('assets/img/books/covers', 'public');
             }
 
             if ($this->thumbnail) {
                 // Store the thumbnail
-                $thumbnailPath = $this->thumbnail->store('assets/img/covers/thumbnails', 'public');
+                $thumbnailPath = $this->thumbnail->store('assets/img/books/covers/thumbnails', 'public');
             }
 
             // Create the book record with marketplace links
@@ -142,7 +176,7 @@ class Tambah extends Component
                 ->toArray();
 
             $buku = Buku::create([
-                'naskah_id' => $this->naskah_id,
+                'kategori_id' => $this->kategori_id,
                 'cover' => $coverPath,
                 'cover_thumbnail' => $thumbnailPath,
                 'judul' => $this->judul,
@@ -151,6 +185,10 @@ class Tambah extends Component
                 'sinopsis' => $this->sinopsis,
                 'isbn' => $this->isbn,
                 'harga' => $this->harga,
+                'penulis' => $this->penulis,
+                'institusi' => $this->institusi,
+                'ukuran' => $this->ukuran,
+                'ketersediaan' => $this->ketersediaan,
                 'jumlah_halaman' => $this->jumlah_halaman,
                 'tanggal_terbit' => $this->tanggal_terbit,
                 'marketplace_links' => json_encode($marketplaceLinks),

@@ -3,64 +3,54 @@
 namespace App\Livewire\Dashboard\Buku;
 
 use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class EditBuku extends Component
 {
     use WithFileUploads;
 
-    public $buku;
-    public $newCover;
+    public $bukuId;
+    public $cover;
     public $thumbnail;
-    public $existingCover;
-    public $judul;
-    public $slug;
-    public $deskripsi;
-    public $sinopsis;
+    public $judul = '';
+    public $slug = '';
+    public $deskripsi = '';
+    public $sinopsis = '';
     public $isbn;
     public $harga;
     public $jumlah_halaman;
     public $tanggal_terbit;
-    public $status;
     public $tempImage;
+    public $draft;
+    public $kategori_id;
+    public $penulis;
+    public $institusi;
+    public $ukuran;
+    public $ketersediaan = true;
+    public $categories;
+    public $oldCover;
+    public $oldThumbnail;
     public $marketplaces = [
         'shopee' => ['active' => false, 'link' => ''],
         'tokopedia' => ['active' => false, 'link' => ''],
         'bukalapak' => ['active' => false, 'link' => ''],
-        'lazada' => ['active' => false, 'link' => '']
+        'lazada' => ['active' => false, 'link' => ''],
     ];
 
-    protected function rules()
-    {
-        return [
-            'newCover' => $this->newCover ? 'image|max:2048' : '',
-            'thumbnail' => $this->thumbnail ? 'image|max:1024' : '',
-            'judul' => 'required|min:3',
-            'slug' => 'required|unique:buku,slug,' . $this->buku->id,
-            'deskripsi' => 'required|min:100',
-            'sinopsis' => 'required|min:100',
-            'isbn' => 'required|unique:buku,isbn,' . $this->buku->id,
-            'harga' => 'required|numeric|min:10000',
-            'jumlah_halaman' => 'required|integer|min:1',
-            'tanggal_terbit' => 'required|date',
-            'marketplaces' => ['required', function ($attribute, $value, $fail) {
-                $activeMarketplaces = collect($value)->filter(fn($m) => $m['active'])->count();
-                if ($activeMarketplaces === 0) {
-                    $fail('Pilih minimal 1 marketplace.');
-                }
-            }]
-        ];
-    }
+    protected $listeners = [
+        'set-deskripsi' => 'setDeskripsi',
+        'set-sinopsis' => 'setSinopsis'
+    ];
 
     public function mount(Buku $buku)
     {
-        $this->buku = $buku;
-        $this->existingCover = $buku->cover;
+        $this->bukuId = $buku->id;
         $this->judul = $buku->judul;
         $this->slug = $buku->slug;
         $this->deskripsi = $buku->deskripsi;
@@ -69,38 +59,72 @@ class EditBuku extends Component
         $this->harga = $buku->harga;
         $this->jumlah_halaman = $buku->jumlah_halaman;
         $this->tanggal_terbit = $buku->tanggal_terbit;
-        $this->status = $buku->status;
+        $this->kategori_id = $buku->kategori_id;
+        $this->penulis = $buku->penulis;
+        $this->institusi = $buku->institusi;
+        $this->ukuran = $buku->ukuran;
+        $this->ketersediaan = $buku->ketersediaan;
+        $this->draft = !$buku->status;
+        $this->oldCover = $buku->cover;
+        $this->oldThumbnail = $buku->cover_thumbnail;
+        $this->categories = Kategori::all();
 
-        // Load marketplace data
-        $marketplaceLinks = json_decode($buku->marketplace_links, true) ?? [];
-        foreach ($marketplaceLinks as $marketplace => $link) {
-            if (isset($this->marketplaces[$marketplace])) {
-                $this->marketplaces[$marketplace] = [
-                    'active' => true,
-                    'link' => $link
-                ];
+        if ($buku->marketplace_links) {
+            $marketplaceLinks = json_decode($buku->marketplace_links, true);
+            foreach ($marketplaceLinks as $platform => $link) {
+                if (isset($this->marketplaces[$platform])) {
+                    $this->marketplaces[$platform] = [
+                        'active' => true,
+                        'link' => $link
+                    ];
+                }
             }
         }
+    }
 
+    protected function rules()
+    {
+        return [
+            'cover' => 'nullable|image|max:2048',
+            'thumbnail' => 'nullable|image|max:1024',
+            'judul' => 'required|min:3',
+            'slug' => 'required|unique:buku,slug,' . $this->bukuId,
+            'deskripsi' => 'required|min:100',
+            'sinopsis' => 'required|min:100',
+            'isbn' => 'required|unique:buku,isbn,' . $this->bukuId,
+            'harga' => 'required|numeric|min:10000',
+            'jumlah_halaman' => 'required|integer|min:1',
+            'tanggal_terbit' => 'required|date',
+            'kategori_id' => 'required',
+            'penulis' => 'required|min:3',
+            'ukuran' => 'required',
+            'marketplaces.*.link' => 'required_if:marketplaces.*.active,true|url'
+        ];
     }
 
     public function updatedJudul($value)
     {
-        if ($this->judul !== $this->buku->judul) {
-            $baseSlug = Str::slug($value);
-            $slug = $baseSlug;
-            $counter = 1;
+        $baseSlug = Str::slug($value);
+        $slug = $baseSlug;
+        $counter = 1;
 
-            while (Buku::where('slug', $slug)
-                ->where('id', '!=', $this->buku->id)
-                ->exists()
-            ) {
-                $slug = $baseSlug . '-' . $counter;
-                $counter++;
-            }
-
-            $this->slug = $slug;
+        // Check if slug exists and increment counter if needed
+        while (Buku::where('slug', $slug)->where('id', '!=', $this->bukuId)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
         }
+
+        $this->slug = $slug;
+    }
+
+    public function setDeskripsi($content)
+    {
+        $this->deskripsi = $content;
+    }
+
+    public function setSinopsis($content)
+    {
+        $this->sinopsis = $content;
     }
 
     public function save()
@@ -110,64 +134,56 @@ class EditBuku extends Component
 
             DB::beginTransaction();
 
-            $coverPath = $this->existingCover;
-            $thumbnailPath = $this->buku->cover_thumbnail;
+            $buku = Buku::find($this->bukuId);
 
-            if ($this->newCover) {
-                // Delete old images
-                if ($this->buku->cover) {
-                    Storage::disk('public')->delete($this->buku->cover);
+            $marketplaceLinks = [];
+            foreach ($this->marketplaces as $platform => $data) {
+                if ($data['active']) {
+                    $marketplaceLinks[$platform] = $data['link'];
                 }
-                if ($this->buku->cover_thumbnail) {
-                    Storage::disk('public')->delete($this->buku->cover_thumbnail);
-                }
-
-                // Store new images
-                $coverPath = $this->newCover->store('assets/img/covers', 'public');
-                $thumbnailPath = $this->thumbnail->store('assets/img/covers/thumbnails', 'public');
             }
 
-            // Update marketplace links
-            $marketplaceLinks = collect($this->marketplaces)
-                ->filter(fn($m) => $m['active'])
-                ->map(fn($m) => $m['link'])
-                ->toArray();
+            if ($this->cover) {
+                if ($buku->cover) {
+                    Storage::disk('public')->delete($buku->cover);
+                }
+                $coverPath = $this->cover->store('assets/img/books/covers', 'public');
+            }
 
-            $this->buku->update([
-                'cover' => $coverPath,
-                'cover_thumbnail' => $thumbnailPath,
+            if ($this->thumbnail) {
+                if ($buku->cover_thumbnail) {
+                    Storage::disk('public')->delete($buku->cover_thumbnail);
+                }
+                $thumbnailPath = $this->thumbnail->store('assets/img/books/thumbnails', 'public');
+            }
+
+            $buku->update([
                 'judul' => $this->judul,
                 'slug' => $this->slug,
                 'deskripsi' => $this->deskripsi,
                 'sinopsis' => $this->sinopsis,
                 'isbn' => $this->isbn,
                 'harga' => $this->harga,
+                'penulis' => $this->penulis,
+                'institusi' => $this->institusi,
+                'ukuran' => $this->ukuran,
+                'ketersediaan' => $this->ketersediaan,
                 'jumlah_halaman' => $this->jumlah_halaman,
                 'tanggal_terbit' => $this->tanggal_terbit,
+                'kategori_id' => $this->kategori_id,
                 'marketplace_links' => json_encode($marketplaceLinks),
-                'status' => $this->status
+                'status' => $this->draft ? false : true,
+                'cover' => $this->cover ? $coverPath : $buku->cover,
+                'cover_thumbnail' => $this->thumbnail ? $thumbnailPath : $buku->cover_thumbnail,
             ]);
 
             DB::commit();
 
-            $this->dispatch('notify', [
-                'type' => 'success',
-                'message' => 'Buku berhasil diperbarui!'
-            ]);
-
+            session()->flash('success', 'Buku berhasil diperbarui.');
             return redirect()->route('semuaBuku');
-        } catch (ValidationException $e) {
-            $this->dispatch('notify', [
-                'type' => 'error',
-                'message' => $e->validator->errors()->first()
-            ]);
-            return;
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->dispatch('notify', [
-                'type' => 'error',
-                'message' => "Terjadi kesalahan: {$e->getMessage()}"
-            ]);
+            $this->dispatch('notify', message: "Terjadi kesalahan saat memperbarui buku: {$e->getMessage()}", type: 'error');
         }
     }
 

@@ -125,6 +125,10 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 <div class="flex space-x-2">
+                                    <button wire:click="showDetail('{{ $book->slug }}')"
+                                        class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-2">
+                                        Detail
+                                    </button>
                                     <a href="{{ route('editBuku', $book->slug) }}" wire:navigate>
                                         <button
                                             class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
@@ -170,6 +174,134 @@
                     Hapus Buku
                 </x-primary-button>
             </div>
+        </div>
+    </x-modal>
+
+    <x-modal name="detailModal" :show="false" maxWidth="2xl">
+        <div class="p-6">
+            @if ($selectedBook)
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Book Cover -->
+                    <div class="w-full md:w-1/3">
+                        <img src="{{ asset($selectedBook->cover) }}" alt="{{ $selectedBook->judul }}"
+                            class="w-full h-auto rounded-lg shadow-lg">
+                    </div>
+
+                    <!-- Book Information -->
+                    <div class="w-full md:w-2/3 space-y-4">
+                        <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+                            {{ $selectedBook->judul }}
+                        </h2>
+
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Status:</span>
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ $selectedBook->status === 1
+                                    ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
+                                    : 'bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-400' }}">
+                                    {{ $selectedBook->status === 1 ? 'Aktif' : 'Nonaktif' }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Ketersediaan:</span>
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ $selectedBook->ketersediaan === 1
+                                    ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
+                                    : 'bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-400' }}">
+                                    {{ $selectedBook->ketersediaan === 1 ? 'Tersedia' : 'Tidak Tersedia' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Penulis:</span>
+                                <span
+                                    class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->penulis }}</span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">ISBN:</span>
+                                <span class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->isbn }}</span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Harga:</span>
+                                <span class="text-red-500 dark:text-red-400">
+                                    Rp {{ number_format($selectedBook->harga, 0, ',', '.') }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Institusi:</span>
+                                <span
+                                    class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->institusi ?? '-' }}</span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Jumlah Halaman:</span>
+                                <span
+                                    class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->jumlah_halaman }}</span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 dark:text-neutral-400">Tanggal Terbit:</span>
+                                <span class="text-neutral-900 dark:text-neutral-100">
+                                    {{ \Carbon\Carbon::parse($selectedBook->tanggal_terbit)->format('d F Y') }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <!-- Deskripsi -->
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Deskripsi</h3>
+                            <div
+                                class="text-sm text-neutral-600 dark:text-neutral-300 prose dark:prose-invert max-w-none">
+                                {!! $selectedBook->deskripsi !!}
+                            </div>
+                        </div>
+
+                        <!-- Sinopsis -->
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Sinopsis</h3>
+                            <div
+                                class="text-sm text-neutral-600 dark:text-neutral-300 prose dark:prose-invert max-w-none">
+                                {!! $selectedBook->sinopsis !!}
+                            </div>
+                        </div>
+
+                        <!-- Marketplace Links -->
+                        @if ($selectedBook->marketplace_links)
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                                    Link Marketplace
+                                </h3>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach (json_decode($selectedBook->marketplace_links, true) as $marketplace => $link)
+                                        <a href="{{ $link }}" target="_blank" rel="noopener noreferrer"
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-sm
+                                            bg-neutral-100 text-neutral-700 hover:bg-neutral-200
+                                            dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-600">
+                                            <span class="capitalize">{{ $marketplace }}</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                            </svg>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <x-border-button @click="$dispatch('close')" class="!w-auto">
+                        Tutup
+                    </x-border-button>
+                </div>
+            @endif
         </div>
     </x-modal>
 </div>

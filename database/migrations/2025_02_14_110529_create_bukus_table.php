@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
             $table->string('judul');
             $table->string('slug')->unique();
             $table->text('deskripsi');
@@ -21,6 +22,10 @@ return new class extends Migration
             $table->string('cover_thumbnail')->nullable();
             $table->string('isbn')->unique();
             $table->bigInteger('harga');
+            $table->string('penulis');
+            $table->string('institusi')->nullable();
+            $table->string('ukuran');
+            $table->boolean('ketersediaan')->default(true);
             $table->integer('jumlah_halaman');
             $table->date('tanggal_terbit');
             $table->json('marketplace_links')->nullable();
