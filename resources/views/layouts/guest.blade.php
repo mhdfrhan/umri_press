@@ -16,20 +16,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-neutral-900 antialiased">
+<body class="bg-white dark:bg-neutral-900 font-sans text-neutral-900 antialiased">
     <div class="min-h-screen flex flex-col lg:flex-row">
         @if (request()->routeIs('login'))
             <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-16">
                 <div class="w-full max-w-md">
                     <div class="text-center mb-8">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto dark:hidden">
+                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto hidden dark:block">
                         </a>
                         <h2 class="mt-6 text-3xl font-bold">Selamat Datang Kembali!</h2>
                         <p class="mt-2 text-neutral-600">Silahkan masuk untuk melanjutkan</p>
                     </div>
 
-                    <div class="w-full bg-white p-8 rounded-lg shadow-sm">
+                    <div class="w-full bg-white dark:bg-neutral-800 p-8 rounded-lg shadow-sm">
                         {{ $slot }}
                     </div>
                 </div>
@@ -47,7 +48,8 @@
                 <div class="w-full max-w-md">
                     <div class="text-center mb-8">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto dark:hidden">
+                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="{{ config('app.name') }}" class="h-14 mx-auto hidden dark:block">
                         </a>
                         <h2 class="mt-6 text-3xl font-bold">Selamat Datang di {{ config('app.name') }}</h2>
                         <p class="mt-2 text-neutral-600">Silahkan daftar untuk melanjutkan</p>

@@ -37,3 +37,46 @@ body {
 button {
   @apply cursor-pointer;
 }
+
+[x-cloak] {
+  @apply hidden;
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: #e5e7eb;
+}
+.dark .ql-snow .ql-fill {
+  fill: #e5e7eb;
+}
+.dark .ql-snow .ql-picker-options {
+  background-color: #1f2937;
+  border-color: #404040;
+}
+.dark .ql-snow .ql-tooltip {
+  background-color: #1f2937;
+  border-color: #404040;
+  color: #e5e7eb;
+}
+.dark .ql-editor.ql-blank::before {
+  color: #6b7280;
+}
+
+.ql-editor {
+  @apply text-neutral-800 dark:text-neutral-200 min-h-[10rem] ;
+}
+
+.ql-container {
+  @apply rounded-b-lg
+}
+
+.ql-snow .ql-picker {
+  @apply !text-neutral-900 dark:!text-neutral-200;
+}
+
+.ql-snow {
+  @apply !border-neutral-300 dark:!border-neutral-700
+}
+
+.ql-toolbar.ql-snow {
+  @apply rounded-t-lg;
+}

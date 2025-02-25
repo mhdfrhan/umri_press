@@ -3,7 +3,7 @@
 <div class="mb-6 pt-4 {{ $class }}">
     <x-container>
         <nav class="flex" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <ol class="inline-flex flex-wrap items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
                     <a href="{{ route('home') }}" wire:navigate
                         class="inline-flex items-center text-sm font-medium text-neutral-700 dark:text-neutral-400 duration-200 hover:text-red-500">

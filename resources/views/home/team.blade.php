@@ -67,7 +67,7 @@
                             <!-- Profile Image -->
                             <div class="mb-4 relative w-full sm:w-1/3">
                                 <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}"
-                                    class="rounded-lg w-full object-cover max-h-52">
+                                    class="rounded-lg w-full object-cover lg:max-h-52" loading="lazy">
                             </div>
 
                             <div class="w-full sm:w-2/3 p-6">
@@ -135,4 +135,6 @@
             </div>
         </x-container>
     </section>
+
+    @include('home.partials.kirimNaskah')
 </x-main-layout>

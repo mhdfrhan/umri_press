@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
         // buku
         Route::get('/dashboard/buku/semua-buku', 'semuaBuku')->name('semuaBuku');
         Route::get('/dashboard/buku/tambah-buku', 'tambahBuku')->name('tambahBuku');
+        Route::get('/dashboard/buku/edit-buku/{slug}', 'editBuku')->name('editBuku');
+        Route::get('/dashboard/buku/tempat-sampah', 'tempatSampah')->name('tempatSampah');
 
         // artikel
         Route::get('/dashboard/artikel/semua-artikel', 'semuaArtikel')->name('semuaArtikel');

@@ -188,7 +188,7 @@
                     pengetahuan melalui publikasi karya ilmiah berkualitas tinggi.</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-6 md:grid-cols-3 mb-16">
+            <div class="grid sm:grid-cols-2 gap-6 md:grid-cols-3 mb-16">
                 <div class="bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-sm shadow-neutral-200 dark:shadow-neutral-800 dark:hover:shadow-red-800/60 dark:hover:shadow-lg hover:shadow-xl duration-500">
                     <div class="flex items-center gap-4 mb-4">
                         <svg class="w-8 h-8 text-red-500 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -338,4 +338,6 @@
             </div>
         </x-container>
     </section>
+
+    @include('home.partials.kirimNaskah')
 </x-main-layout>

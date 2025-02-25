@@ -210,11 +210,11 @@
                 <h2 class="text-3xl font-bold mb-4">Siap Menerbitkan Karya Anda?</h2>
                 <p class="max-w-2xl mx-auto mb-8">Jangan biarkan karya Anda hanya menjadi draft. Mari wujudkan impian
                     Anda menjadi penulis bersama UMRI Press!</p>
-                <div class="flex justify-center space-x-4 max-w-md mx-auto">
-                    <x-primary-button class="!bg-white !text-red-600 hover:!shadow-white/50">
+                <div class="flex flex-wrap justify-center gap-3 max-w-lg mx-auto">
+                    <x-primary-button class="!w-auto !bg-white !text-red-600 hover:!shadow-white/50">
                         Daftar Sekarang
                     </x-primary-button>
-                    <x-secondary-button class="!bg-transparent hover:!bg-red-800/40 !shadow-none dark:hover:!bg-red-900/80">
+                    <x-secondary-button class="!w-auto !bg-transparent hover:!bg-red-800/40 !shadow-none dark:hover:!bg-red-900/80">
                         Hubungi Kami
                     </x-secondary-button>
                 </div>

@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: false);
     }
 }; ?>
 
@@ -65,8 +65,8 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <div class="mt-3">
+        {{-- <div class="mt-3">
             <p class="text-center text-neutral-500 text-sm">Belum memiliki akun? <a href="{{ route('register') }}" class="text-red-600 hover:underline" wire:navigate>Daftar sekarang</a></p>
-        </div>
+        </div> --}}
     </form>
 </div>

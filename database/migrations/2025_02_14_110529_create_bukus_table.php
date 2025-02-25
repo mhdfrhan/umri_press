@@ -13,14 +13,19 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('naskah_id')->references('id')->on('naskah')->cascadeOnDelete();
+            $table->string('judul');
+            $table->string('slug')->unique();
+            $table->text('deskripsi');
+            $table->text('sinopsis');
             $table->string('cover');
+            $table->string('cover_thumbnail')->nullable();
             $table->string('isbn')->unique();
             $table->bigInteger('harga');
             $table->integer('jumlah_halaman');
             $table->date('tanggal_terbit');
-            $table->string('shopee_link');
-            $table->string('tokopedia_link');
+            $table->json('marketplace_links')->nullable();
+            $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

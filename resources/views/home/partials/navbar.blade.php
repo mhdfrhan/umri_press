@@ -9,8 +9,8 @@
         })
     }
 }" :class="{
-    'fixed top-0 px-8 mt-4': scrolled,
-    'fixed top-0': !scrolled
+    'sticky top-4 px-8': scrolled,
+    'sticky top-0': !scrolled
 }"
     class="w-full z-50 transition-all duration-500">
     <div :class="{
@@ -140,8 +140,8 @@
                                 <x-primary-button>Dashboard</x-primary-button>
                             </a>
                         @else
-                            <a href="{{ route('login') }}">
-                                <x-primary-button>Masuk/Login</x-primary-button>
+                            <a href="#">
+                                <x-primary-button>Kirim Naskah</x-primary-button>
                             </a>
                         @endauth
                     </div>
@@ -191,8 +191,8 @@
             x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-1"
-            class="lg:hidden bg-white/95 dark:bg-neutral-900/95 backdrop-blur">
-            <div class="px-4 pt-2 pb-3 space-y-1">
+            class="lg:hidden bg-white/95 dark:bg-neutral-900/95 backdrop-blur overflow-y-auto max-h-screen overflow-hidden">
+            <div class="px-4 pt-2 pb-3 space-y-1" x-cloak>
                 <a href="{{ route('home') }}" wire:navigate.hover
                     class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-all duration-300">Home</a>
 
@@ -255,7 +255,7 @@
                 <!-- Mobile Login Button -->
                 <div class="mt-6 px-4 pb-4">
                     <a href="">
-                        <x-primary-button>Masuk/Login</x-primary-button>
+                        <x-primary-button>Kirim Naskah</x-primary-button>
                     </a>
                 </div>
             </div>

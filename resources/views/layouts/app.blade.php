@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ isset($title) ? $title . ' | ' : '' }} Dashboard {{ config('app.name', 'Laravel') }}</title>
 
     <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
 
@@ -16,6 +16,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
     @livewireStyles
 </head>
 
@@ -25,7 +26,7 @@
         @include('dashboard.partials.sidebar')
 
         <main class="bg-white dark:bg-neutral-900 min-h-screen xl:ml-[20rem] rounded-3xl lg:m-2 border border-neutral-300 dark:border-neutral-800">
-            <div class="border-b border-neutral-300 dark:border-neutral-800 py-4 flex items-center justify-between w-full">
+            <div class="border-b border-neutral-300 dark:border-neutral-800 py-4 flex flex-wrap gap-4 items-center justify-between w-full">
                 <x-d-breadcrumb class="!m-0 !p-0" />
 
                 <div class="px-4 md:px-6 lg:px-8 inline-flex items-center gap-3">
@@ -88,6 +89,7 @@
             return i;
         }
     </script>
+    @stack('scripts')
     @livewireScripts
 </body>
 
