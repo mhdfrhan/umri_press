@@ -131,7 +131,7 @@
                             type="application/pdf" class="w-full h-full object-cover" frameborder="0">
                         <div class="absolute inset-0 bg-black/60 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <!-- Ubah ini -->
-                            <button type="button" 
+                            <button type="button"  
                                 x-data
                                 @click="$dispatch('open-modal', 'preview-certificate')"
                                 class="px-4 py-2 bg-cgreen-500 text-white rounded-lg hover:bg-cgreen-600 transition-colors">
