@@ -115,7 +115,7 @@
     <section class="py-14 bg-white dark:bg-neutral-900">
         <x-container>
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-base font-semibold text-red-500 tracking-wide uppercase">Sertifikat</h2>
+                <h2 class="text-base font-semibold text-cgreen-500 tracking-wide uppercase">Sertifikat</h2>
                 <h3 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl dark:text-neutral-200">
                     Sertifikat Kerja Sama
                 </h3>
