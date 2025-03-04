@@ -11,8 +11,13 @@ class Buku extends Model
 
     protected $table = 'buku';
     protected $guarded = ['id'];
+    protected $with = ['kategori'];
 
     public function naskah() {
         return $this->belongsTo(Naskah::class);
+    }
+
+    public function kategori() {
+        return $this->belongsTo(Kategori::class);
     }
 }

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artikel;
+use App\Models\Buku;
+use App\Models\PaketPenerbit;
+use App\Models\Tim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -9,8 +13,14 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $latestArticles = Artikel::with(['kategori', 'user'])
+            ->where('status', 'publish')
+            ->latest()
+            ->take(3)
+            ->get();
         return view('home.index', [
             'title' => 'Home',
+            'latestArticles' => $latestArticles,
         ]);
     }
 
@@ -18,6 +28,7 @@ class HomeController extends Controller
     {
         return view('home.team', [
             'title' => 'Team',
+            'teamMembers' => Tim::orderBy('position')->get()
         ]);
     }
 
@@ -35,10 +46,21 @@ class HomeController extends Controller
         ]);
     }
 
+    public function penjelasanLayanan()
+    {
+        return view('home.penjelasanLayanan', [
+            'title' => 'Penjelasan Layanan',
+        ]);
+    }
+
     public function harga()
     {
+        $packages = PaketPenerbit::where('active', true)
+            ->orderBy('position')
+            ->get();
         return view('home.harga', [
             'title' => 'Harga',
+            'packages' => $packages,
         ]);
     }
 
@@ -60,6 +82,26 @@ class HomeController extends Controller
     {
         return view('home.artikel', [
             'title' => 'Artikel',
+        ]);
+    }
+
+    public function detailArtikel($slug)
+    {
+        $article = Artikel::with(['kategori', 'user'])
+            ->where('slug', $slug)
+            ->where('status', 'publish')
+            ->first();
+
+        if (!$article) {
+            return redirect()->route('home');
+        }
+
+        // update view count
+        $article->increment('views');
+
+        return view('home.detailArtikel', [
+            'title' => $article->judul,
+            'article' => $article,
         ]);
     }
 }

@@ -9,10 +9,10 @@
 
 <div class="relative group">
     @if ($active ?? false)
-        <span class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-red-500 rounded"></span>
+        <span class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cgreen-500 rounded"></span>
     @else
         <span
-            class="opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-6 bg-red-500 rounded duration-300"></span>
+            class="opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-6 bg-cgreen-500 rounded duration-300"></span>
     @endif
     <div class="{{ $active ?? false ? 'pl-4' : 'hover:pl-4' }} duration-300">
         <a {{ $attributes->merge(['class' => $classes]) }}>

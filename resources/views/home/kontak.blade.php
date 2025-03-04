@@ -17,13 +17,13 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
-                <div class="space-y-8">
+                <div class="space-y-8 max-w-lg">
                     <h2 class="text-3xl font-bold mb-8">Hubungi Kami</h2>
 
                     <div class="flex items-start space-x-4">
                         <div
-                            class="w-12 h-12 bg-red-100 dark:bg-red-900/80 rounded-full flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-red-600 dark:text-red-200" fill="none" stroke="currentColor"
+                            class="w-12 h-12 bg-cgreen-100 dark:bg-cgreen-900/80 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-cgreen-600 dark:text-cgreen-200" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -33,9 +33,8 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold mb-2">Alamat</h3>
-                            <p class="text-neutral-600 dark:text-neutral-400">Jl. Tuanku Tambusai, Delima, Kec. Tampan,
-                                <br>Kota Pekanbaru, Riau
-                                28290
+                            <p class="text-neutral-600 dark:text-neutral-400">
+                                {{ $settings['address'] ?? 'Jl. Tuanku Tambusai, Delima, Kec. Tampan, Kota Pekanbaru, Riau 28290' }}
                             </p>
                         </div>
                     </div>
@@ -51,9 +50,12 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold mb-2">WhatsApp</h3>
-                            <a href="https://wa.me/628783715150" target="_blank"
+                            @php
+                                $phone = preg_replace('/[^0-9]/', '', $settings['phone'] ?? '628783715150');
+                            @endphp
+                            <a href="https://wa.me/{{ $phone }}" target="_blank"
                                 class="text-neutral-600 hover:text-green-600 dark:text-neutral-400 dark:hover:text-green-500">
-                                +62 878-3715-1510
+                                {{ $settings['phone'] ?? '+62 878-3715-1510' }}
                             </a>
                         </div>
                     </div>
@@ -69,8 +71,10 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold mb-2">Email</h3>
-                            <a href="mailto:umripres@umri.ac.id"
-                                class="text-neutral-600 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-500">umripres@umri.ac.id</a>
+                            <a href="mailto:{{ $settings['email'] ?? 'umripres@umri.ac.id' }}"
+                                class="text-neutral-600 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-500">
+                                {{ $settings['email'] ?? 'umripres@umri.ac.id' }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -82,36 +86,36 @@
                             <label for="name" class="block text-sm text-neutral-700 dark:text-neutral-200 mb-2">Nama
                                 Lengkap</label>
                             <input type="text" id="name" name="name" autocomplete="off"
-                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
-                                required>
+                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-cgreen-500 focus:ring-2 focus:ring-cgreen-200 transition-colors"
+                                requicgreen>
                         </div>
 
                         <div>
                             <label for="email"
                                 class="block text-sm text-neutral-700 dark:text-neutral-200 mb-2">Email</label>
                             <input type="email" id="email" name="email" autocomplete="off"
-                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
-                                required>
+                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-cgreen-500 focus:ring-2 focus:ring-cgreen-200 transition-colors"
+                                requicgreen>
                         </div>
 
                         <div>
                             <label for="subject"
                                 class="block text-sm text-neutral-700 dark:text-neutral-200 mb-2">Subjek</label>
                             <input type="text" id="subject" name="subject" autocomplete="off"
-                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
-                                required>
+                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-cgreen-500 focus:ring-2 focus:ring-cgreen-200 transition-colors"
+                                requicgreen>
                         </div>
 
                         <div>
                             <label for="message"
                                 class="block text-sm text-neutral-700 dark:text-neutral-200 mb-2">Pesan</label>
                             <textarea id="message" name="message" rows="5"
-                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
-                                required></textarea>
+                                class="w-full px-4 py-3 bg-white dark:bg-neutral-900 dark:border-neutral-800 outline-none shadow-none rounded-lg border border-neutral-200 focus:border-cgreen-500 focus:ring-2 focus:ring-cgreen-200 transition-colors"
+                                requicgreen></textarea>
                         </div>
 
                         <button type="submit"
-                            class="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                            class="px-6 py-3 bg-cgreen-500 text-white rounded-lg hover:bg-cgreen-600 transition-colors">
                             Kirim Pesan
                         </button>
                     </form>
@@ -124,7 +128,7 @@
     @push('scripts')
         <script>
             function sendToWhatsApp(event) {
-                event.preventDefault(); 
+                event.preventDefault();
 
                 let name = document.getElementById("name").value;
                 let email = document.getElementById("email").value;
@@ -133,10 +137,9 @@
 
                 let text = `Halo, saya ${name}%0AEmail: ${email}%0ASubjek: ${subject}%0APesan: ${message}`;
 
-                let phone = "6287837151510";
+                let phone = "{{ preg_replace('/[^0-9]/', '', $settings['phone'] ?? '628783715150') }}";
 
                 let url = `https://wa.me/${phone}?text=${text}`;
-
                 window.open(url, "_blank");
             }
         </script>

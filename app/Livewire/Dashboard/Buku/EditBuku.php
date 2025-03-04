@@ -121,6 +121,7 @@ class EditBuku extends Component
     {
         $this->deskripsi = $content;
     }
+    
 
     public function setSinopsis($content)
     {
@@ -180,7 +181,7 @@ class EditBuku extends Component
             DB::commit();
 
             session()->flash('success', 'Buku berhasil diperbarui.');
-            return redirect()->route('semuaBuku');
+            return $this->redirect(route('semuaBuku'));
         } catch (\Exception $e) {
             DB::rollBack();
             $this->dispatch('notify', message: "Terjadi kesalahan saat memperbarui buku: {$e->getMessage()}", type: 'error');

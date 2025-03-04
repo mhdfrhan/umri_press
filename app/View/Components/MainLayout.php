@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Pengaturan;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
@@ -12,6 +13,8 @@ class MainLayout extends Component
      */
     public function render(): View
     {
-        return view('layouts.main');
+        $settings = Pengaturan::pluck('value', 'key');
+        
+        return view('layouts.main', compact('settings'));
     }
 }

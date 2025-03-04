@@ -1,4 +1,5 @@
 import './bootstrap';
+import 'livewire-sortable'
 
 document.addEventListener('livewire:navigated', function () {
 	const darkModeToggle = document.querySelector('#darkModeToggle');

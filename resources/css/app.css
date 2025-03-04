@@ -14,6 +14,18 @@
 
 @theme {
   --color-cneutral1: #FCFBFC;
+
+  --color-cgreen-50: #f0faf0;
+  --color-cgreen-100: #dcf5dc;
+  --color-cgreen-200: #bce9bc;
+  --color-cgreen-300: #92d892;
+  --color-cgreen-400: #68b85f;
+  --color-cgreen-500: #4ca542;
+  --color-cgreen-600: #3e8935;
+  --color-cgreen-700: #306d29;
+  --color-cgreen-800: #2b5a25;
+  --color-cgreen-900: #1e421a;
+  --color-cgreen-950: #0f230d;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -81,4 +93,8 @@ button {
 
 .ql-toolbar.ql-snow {
   @apply rounded-t-lg;
+}
+
+textarea {
+  @apply dark:placeholder:text-neutral-500 placeholder:text-neutral-400 placeholder:text-sm;
 }

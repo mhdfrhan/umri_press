@@ -29,10 +29,10 @@ new class extends Component {
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="top-right" width="48">
+                <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="text-xs inline-flex uppercase  py-2 min-[480px]:py-3 px-3 min-[480px]:px-5 border bg-[#111116] border-neutral-300 rounded-lg text-light">
+                            class="text-xs inline-flex uppercase  py-2 min-[480px]:py-3 px-3 min-[480px]:px-5 border bg-neutral-100 border-neutral-300 rounded-lg text-light">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
                                 x-on:profile-updated.window="name = $event.detail.name"></div>
 

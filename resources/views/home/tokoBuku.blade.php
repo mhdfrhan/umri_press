@@ -1,7 +1,7 @@
 <x-main-layout>
     <x-slot name="title">{{ $title }}</x-slot>
 
-    <section class="bg-red-500 dark:bg-red-800 py-24 bg-center bg-repeat"
+    <section class="bg-cgreen-500 dark:bg-cgreen-800 py-24 bg-center bg-repeat"
         style="background-image: url({{ asset('assets/img/background-buku.svg') }})">
         <x-container>
             <h1 class="text-4xl font-semibold text-white">Selamat Datang di Toko Buku UMRI Press</h1>

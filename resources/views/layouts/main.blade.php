@@ -5,42 +5,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description"
-        content="UMRI Press adalah platform publikasi yang kredibel untuk karya ilmiah, buku akademik, dan jurnal penelitian dengan standar mutu internasional.">
-    <meta name="keywords"
-        content="UMRI Press, publikasi akademik, penerbitan buku, jurnal penelitian, Universitas Muhammadiyah Riau, buku akademik, karya ilmiah">
+
+    @if (!isset($metaTags))
+        <meta name="description"
+            content="UMRI Press adalah platform publikasi yang kredibel untuk karya ilmiah, buku akademik, dan jurnal penelitian dengan standar mutu internasional.">
+        <meta name="keywords"
+            content="UMRI Press, publikasi akademik, penerbitan buku, jurnal penelitian, Universitas Muhammadiyah Riau, buku akademik, karya ilmiah">
+        <meta property="og:description"
+            content="UMRI Press adalah platform publikasi yang kredibel untuk karya ilmiah, buku akademik, dan jurnal penelitian dengan standar mutu internasional.">
+        <meta property="og:image" content="{{ asset('assets/img/banner/universitas.jpg') }}">
+        <meta name="twitter:description"
+            content="UMRI Press adalah platform publikasi yang kredibel untuk karya ilmiah, buku akademik, dan jurnal penelitian dengan standar mutu internasional.">
+        <meta name="twitter:image" content="{{ asset('assets/img/banner/universitas.jpg') }}">
+    @endif
+
+    {{ $metaTags ?? '' }}
+
     <meta name="author" content="Universitas Muhammadiyah Riau">
     <meta name="robots" content="index, follow">
-
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title"
-        content="{{ isset($title) ? $title . ' | ' : '' }} {{ config('app.name', 'UMRI Press') }}">
-    <meta property="og:description"
-        content="UMRI Press adalah platform publikasi yang kredibel untuk karya ilmiah, buku akademik, dan jurnal penelitian dengan standar mutu internasional.">
-    <meta property="og:image" content="{{ asset('assets/img/banner/universitas.jpg') }}">
-    <meta property="og:locale" content="id_ID">
     <meta property="og:site_name" content="{{ config('app.name', 'UMRI Press') }}">
-
+    <meta property="og:locale" content="id_ID">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title"
-        content="{{ isset($title) ? $title . ' | ' : '' }} {{ config('app.name', 'UMRI Press') }}">
-    <meta name="twitter:description"
-        content="UMRI Press adalah platform publikasi yang kredibel untuk karya ilmiah, buku akademik, dan jurnal penelitian dengan standar mutu internasional.">
-    <meta name="twitter:image" content="{{ asset('assets/img/banner/universitas.jpg') }}">
 
-    <title>{{ isset($title) ? $title . ' | ' : '' }} {{ config('app.name', 'Laravel') }}</title>
+    <title>{{ isset($title) ? $title . ' | ' : '' }}{{ config('app.name', 'UMRI Press') }}</title>
+    <meta property="og:title"
+        content="{{ isset($title) ? $title . ' | ' : '' }}{{ config('app.name', 'UMRI Press') }}">
+    <meta name="twitter:title"
+        content="{{ isset($title) ? $title . ' | ' : '' }}{{ config('app.name', 'UMRI Press') }}">
 
     <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet">
 
-    <!-- Scripts -->
     @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -65,13 +67,14 @@
             <x-breadcrumb />
         @endif
 
-        {{ $slot }}
+        <div class="{{ !request()->routeIs('home') ? 'mt-8' : '' }}">
+            {{ $slot }}
+        </div>
     </main>
 
 
     @include('home.partials.footer')
 
-    <script></script>
 
     @stack('scripts')
     @livewireScripts

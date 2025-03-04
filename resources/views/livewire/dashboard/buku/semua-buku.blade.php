@@ -40,7 +40,7 @@
                     Urutkan
                 </label>
                 <select wire:model.live="sortBy"
-                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-red-500 focus:ring-red-500">
+                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
                     <option value="newest">Terbaru</option>
                     <option value="oldest">Terlama</option>
                     <option value="title_asc">Judul A-Z</option>
@@ -55,7 +55,7 @@
                     Status
                 </label>
                 <select wire:model.live="status"
-                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-red-500 focus:ring-red-500">
+                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
                     <option value="">Semua Status</option>
                     <option value="active">Aktif</option>
                     <option value="inactive">Nonaktif</option>
@@ -110,7 +110,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-red-500 dark:text-red-400">
+                                <div class="text-sm font-medium text-cgreen-500 dark:text-cgreen-400">
                                     Rp {{ number_format($book->harga, 0, ',', '.') }}
                                 </div>
                             </td>
@@ -119,7 +119,7 @@
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                     {{ $book->status === 1
                                         ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
-                                        : 'bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-400' }}">
+                                        : 'bg-cgreen-100 text-cgreen-800 dark:bg-cgreen-800/20 dark:text-cgreen-400' }}">
                                     {{ $book->status === 1 ? 'Aktif' : 'Nonaktif' }}
                                 </button>
                             </td>
@@ -136,7 +136,7 @@
                                         </button>
                                     </a>
                                     <button wire:click="confirmDelete({{ $book->id }})"
-                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                        class="text-cgreen-600 hover:text-cgreen-900 dark:text-cgreen-400 dark:hover:text-cgreen-300">
                                         Hapus
                                     </button>
                                 </div>
@@ -200,7 +200,7 @@
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                 {{ $selectedBook->status === 1
                                     ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
-                                    : 'bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-400' }}">
+                                    : 'bg-cgreen-100 text-cgreen-800 dark:bg-cgreen-800/20 dark:text-cgreen-400' }}">
                                     {{ $selectedBook->status === 1 ? 'Aktif' : 'Nonaktif' }}
                                 </span>
                             </div>
@@ -210,7 +210,7 @@
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                 {{ $selectedBook->ketersediaan === 1
                                     ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
-                                    : 'bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-400' }}">
+                                    : 'bg-cgreen-100 text-cgreen-800 dark:bg-cgreen-800/20 dark:text-cgreen-400' }}">
                                     {{ $selectedBook->ketersediaan === 1 ? 'Tersedia' : 'Tidak Tersedia' }}
                                 </span>
                             </div>
@@ -228,7 +228,7 @@
                             </div>
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">Harga:</span>
-                                <span class="text-red-500 dark:text-red-400">
+                                <span class="text-cgreen-500 dark:text-cgreen-400">
                                     Rp {{ number_format($selectedBook->harga, 0, ',', '.') }}
                                 </span>
                             </div>

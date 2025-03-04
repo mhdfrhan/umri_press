@@ -50,7 +50,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         <div class="flex items-center justify-between mt-4">
             <label for="remember" class="inline-flex items-center cursor-pointer">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded-sm border-gray-300 text-red-600 shadow-xs focus:ring-red-500 duration-200" name="remember">
+                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded-sm border-gray-300 text-cgreen-600 shadow-xs focus:ring-cgreen-500 duration-200" name="remember">
                 <span class="ms-2 text-sm text-gray-600 select-none">{{ __('Ingat saya') }}</span>
             </label>
             @if (Route::has('password.request'))
@@ -66,7 +66,7 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
         {{-- <div class="mt-3">
-            <p class="text-center text-neutral-500 text-sm">Belum memiliki akun? <a href="{{ route('register') }}" class="text-red-600 hover:underline" wire:navigate>Daftar sekarang</a></p>
+            <p class="text-center text-neutral-500 text-sm">Belum memiliki akun? <a href="{{ route('register') }}" class="text-cgreen-600 hover:underline" wire:navigate>Daftar sekarang</a></p>
         </div> --}}
     </form>
 </div>

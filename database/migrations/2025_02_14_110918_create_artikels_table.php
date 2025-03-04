@@ -14,11 +14,15 @@ return new class extends Migration
         Schema::create('artikel', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('kategori_id')->constrained('kategori_artikel')->cascadeOnDelete();
             $table->string('judul');
             $table->text('konten');
             $table->string('slug')->unique();
+            $table->string('image');
             $table->string('thumbnail');
             $table->enum('status', ['publish', 'draft'])->default('draft');
+            $table->integer('views')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@
                         </div>
                         <div class="flex text-sm text-neutral-600 justify-center">
                             <x-input-label
-                                class="relative cursor-pointer rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-500">
+                                class="relative cursor-pointer rounded-md font-medium text-cgreen-600 hover:text-cgreen-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-cgreen-500">
                                 <span>Upload file</span>
                                 <input type="file" wire:model="cover" class="sr-only" accept="image/*" id="gambar"
                                     onchange="openCropper(event)">
@@ -104,7 +104,7 @@
                         Kategori
                     </x-input-label>
                     <select wire:model="kategori_id"
-                        class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-red-500 focus:ring-red-500">
+                        class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
                         <option value="">Pilih kategori...</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->nama }}</option>
@@ -205,7 +205,7 @@
             <div class="mt-4">
                 <label class="inline-flex items-center">
                     <input type="checkbox" wire:model="ketersediaan"
-                        class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                        class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
                     <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tersedia</span>
                 </label>
             </div>
@@ -221,7 +221,7 @@
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.shopee.active"
-                            class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
                         <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Shopee</span>
                     </label>
                     @if ($marketplaces['shopee']['active'])
@@ -239,7 +239,7 @@
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.tokopedia.active"
-                            class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
                         <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tokopedia</span>
                     </label>
                     @if ($marketplaces['tokopedia']['active'])
@@ -257,7 +257,7 @@
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.bukalapak.active"
-                            class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
                         <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Bukalapak</span>
                     </label>
                     @if ($marketplaces['bukalapak']['active'])
@@ -275,7 +275,7 @@
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.lazada.active"
-                            class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
                         <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Lazada</span>
                     </label>
                     @if ($marketplaces['lazada']['active'])
@@ -299,7 +299,7 @@
                 <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">Status</h3>
                 <label class="inline-flex items-center">
                     <input type="checkbox" wire:model="draft"
-                        class="rounded border-neutral-300 text-red-500 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                        class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
                     <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Simpan sebagai draft</span>
                 </label>
             </div>

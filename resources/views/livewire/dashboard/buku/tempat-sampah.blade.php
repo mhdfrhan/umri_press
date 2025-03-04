@@ -52,7 +52,7 @@
                     Urutkan
                 </label>
                 <select wire:model.live="sortBy"
-                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-red-500 focus:ring-red-500">
+                    class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
                     <option value="newest">Terbaru Dihapus</option>
                     <option value="oldest">Terlama Dihapus</option>
                     <option value="title_asc">Judul A-Z</option>
@@ -116,7 +116,7 @@
                                         Pulihkan
                                     </button>
                                     <button wire:click="confirmForceDelete({{ $book->id }})"
-                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                        class="text-cgreen-600 hover:text-cgreen-900 dark:text-cgreen-400 dark:hover:text-cgreen-300">
                                         Hapus Permanen
                                     </button>
                                 </div>

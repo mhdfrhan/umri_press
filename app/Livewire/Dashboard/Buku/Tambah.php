@@ -216,7 +216,7 @@ class Tambah extends Component
             session()->flash('success', 'Buku berhasil disimpan.');
 
             // Redirect to book list or detail page
-            return redirect()->route('semuaBuku');
+            return $this->redirect(route('semuaBuku'));
         } catch (\Exception $e) {
             DB::rollBack();
 

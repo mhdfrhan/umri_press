@@ -11,9 +11,15 @@ class Artikel extends Model
     
     protected $table = 'artikel';
     protected $guarded = ['id'];
+    protected $with = ['kategori', 'user'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriArtikel::class, 'kategori_id');
     }
 }

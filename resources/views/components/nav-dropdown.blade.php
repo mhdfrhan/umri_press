@@ -3,15 +3,15 @@
 <li>
     <div x-data="{ isExpanded: {{ request()->is($routePattern) ? 'true' : 'false' }} }" class="flex flex-col {{ $active ?? false ? 'pl-4' : 'hover:pl-4' }} duration-300 relative group">
         @if ($active)
-            <span class="opacity-100 visible absolute left-0 top-2 w-1 h-6 bg-red-500 rounded"></span>
+            <span class="opacity-100 visible absolute left-0 top-2 w-1 h-6 bg-cgreen-500 rounded"></span>
         @else
             <span
-                class="opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute left-0 top-2 w-1 h-0 group-hover:h-6 bg-red-500 rounded duration-300"></span>
+                class="opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute left-0 top-2 w-1 h-0 group-hover:h-6 bg-cgreen-500 rounded duration-300"></span>
         @endif
         <button type="button" x-on:click="isExpanded = ! isExpanded" aria-controls="{{ Str::slug($title) }}"
             x-bind:aria-expanded="isExpanded ? 'true' : 'false'"
             class="inline-flex items-center py-2.5 px-3 rounded-xl font-medium leading-5 gap-3 w-full focus:outline-none cursor-pointer hover:bg-white dark:hover:bg-neutral-900 border border-transparent duration-200  hover:border-neutral-300 dark:hover:border-neutral-800"
-            x-bind:class="isExpanded ? 'text-black dark:text-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 bg-white border border-neutral-300' :
+            x-bind:class="isExpanded ? 'text-black dark:text-neutral-200 dark:bg-neutral-900 dark:!border-neutral-800 bg-white border !border-neutral-300' :
                 ' text-neutral-600 hover:bg-white hover:text-black dark:hover:text-neutral-200 dark:text-neutral-400'">
 
             {!! $icon !!}

@@ -15,7 +15,7 @@
     <!-- Kategori Buku -->
     <section class="py-16 bg-white dark:bg-neutral-950">
         <x-container>
-            <h2 class="text-4xl font-bold text-red-500 text-center mb-8">Kategori Buku yang Diterbitkan</h2>
+            <h2 class="text-4xl font-bold text-cgreen-500 text-center mb-8">Kategori Buku yang Diterbitkan</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div
                     class="bg-white dark:bg-neutral-900 p-6 shadow-sm rounded-xl hover:shadow-xl transition duration-300">
@@ -50,7 +50,7 @@
     </section>
 
     <!-- Prosedur Pengiriman Naskah -->
-    <section class="py-20 bg-gradient-to-b from-red-500 to-red-700 text-white dark:from-red-800 dark:to-red-900">
+    <section class="py-20 bg-gradient-to-b from-cgreen-500 to-cgreen-700 text-white dark:from-cgreen-800 dark:to-cgreen-900">
         <x-container>
             <h2 class="text-4xl font-bold text-center mb-10">Prosedur Kirim Naskah</h2>
             <div class="max-w-4xl mx-auto bg-white dark:bg-neutral-950 p-8 rounded-xl shadow-lg text-neutral-900">
@@ -99,8 +99,8 @@
                 <div
                     class="bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-md transition-shadow">
                     <div
-                        class="w-12 h-12 bg-red-100 dark:bg-red-900/80 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-red-600 dark:text-red-200" fill="none" stroke="currentColor"
+                        class="w-12 h-12 bg-cgreen-100 dark:bg-cgreen-900/80 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-cgreen-600 dark:text-cgreen-200" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -128,7 +128,7 @@
                         Spesifikasi Buku</h3>
                     <p class="text-neutral-600 dark:text-neutral-400 mb-4">Formulir spesifikasi dan surat keaslian</p>
                     <a href="#"
-                        class="inline-flex items-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400">
+                        class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400">
                         Unduh Form
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -153,7 +153,7 @@
                         Data Diri</h3>
                     <p class="text-neutral-600 dark:text-neutral-400 mb-4">Formulir identitas penulis</p>
                     <a href="#"
-                        class="inline-flex items-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400">
+                        class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400">
                         Unduh Form
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -178,7 +178,7 @@
                         MoU</h3>
                     <p class="text-neutral-600 dark:text-neutral-400 mb-4">MoU untuk Dosen dan Non-Dosen</p>
                     <a href="#"
-                        class="inline-flex items-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400">
+                        class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400">
                         Unduh Form
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -207,8 +207,8 @@
                         class="bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-4">
                             <div
-                                class="w-12 h-12 bg-red-100 dark:bg-red-900/80 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-red-600 dark:text-red-200" fill="none"
+                                class="w-12 h-12 bg-cgreen-100 dark:bg-cgreen-900/80 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-cgreen-600 dark:text-cgreen-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -221,7 +221,7 @@
                         <ul class="text-neutral-600 mb-4 dark:text-neutral-400 list-inside space-y-1">
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -229,7 +229,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -237,7 +237,7 @@
                             </li>
                         </ul>
                         <a href="#"
-                            class="inline-flex items-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 font-medium">
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400 font-medium">
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -252,8 +252,8 @@
                         class="bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-4">
                             <div
-                                class="w-12 h-12 bg-red-100 dark:bg-red-900/80 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-red-600 dark:text-red-200" fill="none"
+                                class="w-12 h-12 bg-cgreen-100 dark:bg-cgreen-900/80 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-cgreen-600 dark:text-cgreen-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -266,7 +266,7 @@
                         <ul class="text-neutral-600 mb-4 dark:text-neutral-400 list-inside space-y-1">
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -274,7 +274,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -282,7 +282,7 @@
                             </li>
                         </ul>
                         <a href="#"
-                            class="inline-flex items-center text-red-600 hover:text-red-700 font-medium">
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 font-medium">
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -297,8 +297,8 @@
                         class="bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-4">
                             <div
-                                class="w-12 h-12 bg-red-100 dark:bg-red-900/80 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-red-600 dark:text-red-200" fill="none"
+                                class="w-12 h-12 bg-cgreen-100 dark:bg-cgreen-900/80 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-cgreen-600 dark:text-cgreen-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -311,7 +311,7 @@
                         <ul class="text-neutral-600 mb-4 dark:text-neutral-400 list-inside space-y-1">
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -319,7 +319,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -327,7 +327,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -335,7 +335,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -343,7 +343,7 @@
                             </li>
                         </ul>
                         <a href="#"
-                            class="inline-flex items-center text-red-600 hover:text-red-700 font-medium">
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 font-medium">
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -358,8 +358,8 @@
                         class="bg-white dark:bg-neutral-900 dark:border-neutral-800 p-6 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-4">
                             <div
-                                class="w-12 h-12 bg-red-100 dark:bg-red-900/80 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-red-600 dark:text-red-200" fill="none"
+                                class="w-12 h-12 bg-cgreen-100 dark:bg-cgreen-900/80 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-cgreen-600 dark:text-cgreen-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -372,7 +372,7 @@
                         <ul class="text-neutral-600 mb-4 dark:text-neutral-400 list-inside space-y-1">
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -380,7 +380,7 @@
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-red-500">
+                                    stroke-width="1.5" stroke="currentColor" class="size-5 text-cgreen-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -388,7 +388,7 @@
                             </li>
                         </ul>
                         <a href="#"
-                            class="inline-flex items-center text-red-600 hover:text-red-700 font-medium">
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 font-medium">
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

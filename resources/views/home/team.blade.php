@@ -2,85 +2,27 @@
     <x-slot name="title">{{ $title }}</x-slot>
 
     <section class="pb-24 bg-white dark:bg-neutral-950 mt-4">
-        @php
-            $teamMembers = [
-                [
-                    'name' => 'Assoc. Prof. Dr. Harun Mukhtar, S.Kom., M.Kom',
-                    'role' => 'Chief Executive Officer',
-                    'description' =>
-                        'Sebagai ketua UMRI Press, Assoc. Prof. Dr. Harun Mukhtar, S.Kom., M.Kom berkomitmen untuk memajukan literasi dan menyebarkan ilmu pengetahuan melalui penerbitan karya-karya berkualitas yang bermanfaat bagi masyarakat luas',
-                    'image' => asset('assets/img/team/harun.jpg'),
-                    'social' => [
-                        'facebook' => 'https://facebook.com/harun',
-                        'twitter' => 'https://twitter.com/harun',
-                        'instagram' => 'https://instagram.com/harun',
-                        'linkedin' => 'https://linkedin.com/in/harun',
-                    ],
-                ],
-                [
-                    'name' => 'Reny Medikawati Taufiq, S.Kom., MT',
-                    'role' => 'Product Manager',
-                    'description' =>
-                        'Reny Medikawati Taufiq, S.Kom., MT berperan penting sebagai Product Manager di UMRI Press, memastikan setiap karya yang diterbitkan memenuhi standar kualitas tinggi. Dengan keahliannya di bidang teknologi dan manajemen produk, beliau mendukung inovasi dan pengembangan literasi untuk menghasilkan publikasi yang relevan dan berdampak luas.',
-                    'image' => asset('assets/img/team/reny.png'),
-                    'social' => [
-                        'facebook' => 'https://facebook.com/reny',
-                        'twitter' => 'https://twitter.com/reny',
-                        'instagram' => 'https://instagram.com/reny',
-                        'linkedin' => 'https://linkedin.com/in/reny',
-                    ],
-                ],
-                [
-                    'name' => 'Bayu Anugerah Putra, S.Kom., M.Cs',
-                    'role' => 'Publishing Manager',
-                    'description' =>
-                        'Bayu Anugerah Putra, S.Kom., M.Cs menjabat sebagai Publishing Manager di UMRI Press, mengelola dan mengawasi seluruh proses penerbitan dari awal hingga akhir. Dengan keahlian di bidang teknologi dan manajemen, beliau memastikan setiap publikasi berjalan lancar, tepat waktu, dan memenuhi standar mutu tinggi.',
-                    'image' => asset('assets/img/team/bayu.png'),
-                    'social' => [
-                        'facebook' => 'https://facebook.com/bayu',
-                        'twitter' => 'https://twitter.com/bayu',
-                        'instagram' => 'https://instagram.com/bayu',
-                        'linkedin' => 'https://linkedin.com/in/bayu',
-                    ],
-                ],
-                [
-                    'name' => 'Putri Fadhilla Muarif, S.Kom',
-                    'role' => 'Editorial',
-                    'description' =>
-                        'Putri Fadhilla Muarif, S.Kom berperan sebagai Editorial di UMRI Press, bertanggung jawab memastikan setiap karya yang diterbitkan memenuhi standar kualitas terbaik. Dengan dedikasi dan perhatian pada detail, beliau mendukung proses penyuntingan dan penerbitan untuk menghasilkan publikasi yang informatif dan inspiratif.',
-                    'image' => asset('assets/img/team/putri.jpeg'),
-                    'social' => [
-                        'facebook' => 'https://facebook.com/putri',
-                        'twitter' => 'https://twitter.com/putri',
-                        'instagram' => 'https://instagram.com/putri',
-                        'linkedin' => 'https://linkedin.com/in/putri',
-                    ],
-                ],
-            ];
-        @endphp
-
         <x-container>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                @foreach ($teamMembers as $index => $member)
+                @foreach ($teamMembers as $member)
                     <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
                         <div class="flex flex-wrap -mx-3">
                             <!-- Profile Image -->
                             <div class="mb-4 relative w-full sm:w-1/3">
-                                <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}"
+                                <img src="{{ asset($member->foto) }}" alt="{{ $member->nama }}"
                                     class="rounded-lg w-full object-cover lg:max-h-52" loading="lazy">
                             </div>
 
                             <div class="w-full sm:w-2/3 p-6">
                                 <!-- Info -->
-                                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-200 mb-1">{{ $member['name'] }}</h3>
-                                <p class="text-sm text-red-600 dark:text-red-500 font-medium mb-3">{{ $member['role'] }}</p>
-                                <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">{{ $member['description'] }}
-                                </p>
+                                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-200 mb-1">{{ $member->nama }}</h3>
+                                <p class="text-sm text-cgreen-600 dark:text-cgreen-500 font-medium mb-3">{{ $member->jabatan }}</p>
+                                <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4">{{ $member->deskripsi }}</p>
 
                                 <!-- Social Media Links -->
                                 <div class="flex space-x-4 mt-4">
-                                    @if (isset($member['social']['facebook']))
-                                        <a href="{{ $member['social']['facebook'] }}"
+                                    @if ($member->facebook)
+                                        <a href="{{ $member->facebook }}"
                                             class="text-neutral-400 hover:text-blue-600" target="_blank">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
@@ -90,8 +32,8 @@
                                         </a>
                                     @endif
 
-                                    @if (isset($member['social']['twitter']))
-                                        <a href="{{ $member['social']['twitter'] }}"
+                                    @if ($member->twitter)
+                                        <a href="{{ $member->twitter }}"
                                             class="text-neutral-400 hover:text-blue-400" target="_blank">
                                             <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
                                                 <rect width="256" height="256" fill="none" />
@@ -108,8 +50,8 @@
                                         </a>
                                     @endif
 
-                                    @if (isset($member['social']['instagram']))
-                                        <a href="{{ $member['social']['instagram'] }}"
+                                    @if ($member->instagram)
+                                        <a href="{{ $member->instagram }}"
                                             class="text-neutral-400 hover:text-pink-600" target="_blank">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
@@ -118,8 +60,8 @@
                                         </a>
                                     @endif
 
-                                    @if (isset($member['social']['linkedin']))
-                                        <a href="{{ $member['social']['linkedin'] }}"
+                                    @if ($member->linkedin)
+                                        <a href="{{ $member->linkedin }}"
                                             class="text-neutral-400 hover:text-blue-700" target="_blank">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
