@@ -49,6 +49,16 @@ return new class extends Migration
                 'keterangan' => 'Icon website (Ukuran yang disarankan: 32x32px)',
             ],
 
+            // sertifikat kerjasama
+            [
+                'key' => 'sertifikat',
+                'value' => 'assets/sertifikat-kerjasama.pdf',
+                'display_name' => 'Sertifikat',
+                'type' => 'pdf',
+                'group' => 'sertifikat',
+                'keterangan' => 'Sertifikat kerjasama',
+            ],
+
             // Group Kontak
             [
                 'key' => 'address',

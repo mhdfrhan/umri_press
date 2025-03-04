@@ -21,9 +21,6 @@
                 if (window.splideBanner) {
                     window.splideBanner.destroy();
                 }
-                if (window.splideSupport) {
-                    window.splideSupport.destroy();
-                }
 
                 if (banner) {
                     window.splideBanner = new Splide(banner, {
@@ -35,30 +32,6 @@
                         pagination: true,
                         pauseOnHover: false,
                     }).mount();
-                }
-
-                if (supportSlider) {
-                    window.splideSupport = new Splide(supportSlider, {
-                        type: 'loop',
-                        arrows: false,
-                        pagination: false,
-                        perPage: 6,
-                        gap: 0,
-                        autoScroll: {
-                            speed: 0.5,
-                        },
-                        breakpoints: {
-                            1024: {
-                                perPage: 4
-                            },
-                            768: {
-                                perPage: 3
-                            },
-                            640: {
-                                perPage: 2
-                            },
-                        },
-                    }).mount(window.splide.Extensions);
                 }
             }
 
@@ -140,42 +113,58 @@
     </section>
 
     <section class="py-14 bg-white dark:bg-neutral-900">
-        <div class="relative">
-            <div class="text-center mb-8">
-                <h4 class="text-neutral-400">Di Support Oleh</h4>
+        <x-container>
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-base font-semibold text-red-500 tracking-wide uppercase">Sertifikat</h2>
+                <h3 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl dark:text-neutral-200">
+                    Sertifikat Kerja Sama
+                </h3>
+                <p class="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
+                    Bukti komitmen kami dalam menjalin kerja sama untuk meningkatkan kualitas layanan penerbitan akademik.
+                </p>
             </div>
-
-            <div id="support-slider" class="splide" aria-label="Support Slides">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide relative">
-                            <img class="h-28 w-auto object-cover" src="{{ asset('assets/img/partner/itb.png') }}"
-                                alt="">
-                        </li>
-                        <li class="splide__slide relative">
-                            <img class="h-28 w-auto object-cover" src="{{ asset('assets/img/partner/ipb.png') }}"
-                                alt="">
-                        </li>
-                        <li class="splide__slide relative">
-                            <img class="h-28 w-auto object-cover" src="{{ asset('assets/img/partner/ugm.png') }}"
-                                alt="">
-                        </li>
-                        <li class="splide__slide relative">
-                            <img class="h-28 w-auto object-cover" src="{{ asset('assets/img/partner/umri.png') }}"
-                                alt="">
-                        </li>
-                    </ul>
+    
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white dark:bg-neutral-800 rounded-xl shadow-sm overflow-hidden">
+                    <div class="relative aspect-[4/3] group">
+                        <embed src="{{ asset($settings['sertifikat'] ?? 'assets/documents/sertifikat.pdf') }}#toolbar=0"
+                            type="application/pdf" class="w-full h-full object-cover" frameborder="0">
+                        <div class="absolute inset-0 bg-black/60 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <!-- Ubah ini -->
+                            <button type="button" 
+                                x-data
+                                @click="$dispatch('open-modal', 'preview-certificate')"
+                                class="px-4 py-2 bg-cgreen-500 text-white rounded-lg hover:bg-cgreen-600 transition-colors">
+                                Lihat Dokumen
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-medium text-neutral-900 dark:text-neutral-100">Sertifikat Kerjasama UMRI Press</h4>
+                    </div>
                 </div>
             </div>
-
-            <div
-                class="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-white via-white/80 dark:from-neutral-900 dark:via-neutral-900/80 to-transparent">
+        </x-container>
+    
+        <!-- PDF Preview Modal -->
+        <x-modal name="preview-certificate" :show="false" maxWidth="4xl" align="center">
+            <div class="relative">
+                <div class="absolute right-0 top-0 p-4 z-10">
+                    <button type="button" 
+                        x-data
+                        @click="$dispatch('close-modal', 'preview-certificate')"
+                        class="rounded-full p-2 bg-red-500 text-white hover:bg-red-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <iframe src="{{ asset($settings['sertifikat'] ?? 'assets/documents/sertifikat.pdf') }}#toolbar=0" 
+                    class="w-full h-[80vh] rounded-lg"
+                    frameborder="0">
+                </iframe>
             </div>
-            <div
-                class="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-white via-white/80 dark:from-neutral-900 dark:via-neutral-900/80 to-transparent">
-            </div>
-        </div>
-        </div>
+        </x-modal>
     </section>
 
     <section class="py-24 bg-neutral-50 dark:bg-neutral-950">
@@ -396,7 +385,8 @@
                 <div>
                     <div class="flex justify-between items-end mb-8">
                         <div>
-                            <h2 class="text-base font-semibold text-cgreen-500 tracking-wide uppercase">Artikel Terbaru</h2>
+                            <h2 class="text-base font-semibold text-cgreen-500 tracking-wide uppercase">Artikel Terbaru
+                            </h2>
                             <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-200">Artikel & Berita
                                 Terkini</h3>
                         </div>

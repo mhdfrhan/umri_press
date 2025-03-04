@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Buku;
 use App\Models\PaketPenerbit;
+use App\Models\Pengaturan;
 use App\Models\Tim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -21,6 +22,7 @@ class HomeController extends Controller
         return view('home.index', [
             'title' => 'Home',
             'latestArticles' => $latestArticles,
+            'settings' => Pengaturan::pluck('value', 'key')
         ]);
     }
 

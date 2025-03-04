@@ -3,9 +3,9 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Pengaturan as Setting;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class Pengaturan extends Component
 {
@@ -13,6 +13,7 @@ class Pengaturan extends Component
 
     public $settings = [];
     public $images = [];
+    public $files = [];
 
     public function mount()
     {
@@ -25,50 +26,77 @@ class Pengaturan extends Component
         $this->settings = $settings->toArray();
     }
 
-    public function updatedImages($value, $key)
+    public function updatedFiles($value, $key)
     {
         try {
             $setting = Setting::where('key', $key)->first();
-            
-            if ($setting && $this->images[$key]) {
-                // Validate image
+
+            if ($setting && $this->files[$key]) {
                 $this->validate([
-                    "images.$key" => 'image|max:2048', // Max 2MB
+                    "files.$key" => 'required|mimes:pdf|max:10240', 
                 ], [
-                    "images.$key.image" => 'File harus berupa gambar.',
-                    "images.$key.max" => 'Ukuran gambar maksimal 2MB.'
+                    "files.$key.required" => 'File PDF harus dipilih.',
+                    "files.$key.mimes" => 'File harus berupa PDF.',
+                    "files.$key.max" => 'Ukuran file maksimal 10MB.'
                 ]);
 
-                // Delete old image if exists
                 if ($setting->value && Storage::disk('public')->exists($setting->value)) {
                     Storage::disk('public')->delete($setting->value);
                 }
 
-                // Store new image
-                $path = $this->images[$key]->store('assets/img/settings', 'public');
+                $path = $this->files[$key]->store('assets/pdf', 'public');
 
-                // If updating logo-white, ensure it's optimized for dark mode
-                if ($key === 'logo-white') {
-                    // You may want to add additional image processing here
-                    // For example, ensuring the background is transparent
-                }
-
-                // Update setting
                 $setting->update(['value' => $path]);
-                
-                $this->dispatch('notify', 
-                    message: ($key === 'logo-white' ? 'Logo dark mode' : 'Gambar') . ' berhasil diperbarui!', 
-                    type: 'success'
-                );
-                
+
+                $this->dispatch('notify', message: 'File PDF berhasil diperbarui!', type: 'success');
+
                 $this->loadSettings();
-                $this->images = []; // Clear uploaded images
+                $this->files = [];
             }
         } catch (\Exception $e) {
-            $this->dispatch('notify', 
-                message: 'Gagal memperbarui ' . ($key === 'logo-white' ? 'logo dark mode' : 'gambar') . ': ' . $e->getMessage(), 
-                type: 'error'
-            );
+            $this->dispatch('notify', message: 'Gagal memperbarui file PDF: ' . $e->getMessage(), type: 'error');
+        }
+    }
+
+    public function deletePdf($key)
+    {
+        try {
+            $setting = Setting::where('key', $key)->first();
+
+            if ($setting && $setting->value) {
+                if (Storage::disk('public')->exists($setting->value)) {
+                    Storage::disk('public')->delete($setting->value);
+                }
+
+                $setting->update(['value' => null]);
+
+                $this->dispatch('notify', message: 'File PDF berhasil dihapus!', type: 'success');
+
+                $this->loadSettings();
+            }
+        } catch (\Exception $e) {
+            $this->dispatch('notify', message: 'Gagal menghapus file PDF: ' . $e->getMessage(), type: 'error');
+        }
+    }
+
+    public function updatedImages($value, $key)
+    {
+        try {
+            $setting = Setting::where('key', $key)->first();
+
+            if ($setting && $this->images[$key]) {
+                if ($setting->value && file_exists(public_path($setting->value))) {
+                    unlink(public_path($setting->value));
+                }
+
+                $path = $this->images[$key]->store('assets/img/settings', 'public');
+                $setting->update(['value' => $path]);
+
+                $this->dispatch('notify', message: 'Gambar berhasil diperbarui!', type: 'success');
+                $this->loadSettings();
+            }
+        } catch (\Exception $e) {
+            $this->dispatch('notify', message: 'Gagal memperbarui gambar: ' . $e->getMessage(), type: 'error');
         }
     }
 
@@ -76,42 +104,9 @@ class Pengaturan extends Component
     {
         try {
             Setting::where('key', $key)->update(['value' => $value]);
-            
-            // Clear logo cache if updating logo settings
-            if (in_array($key, ['logo', 'logo-white'])) {
-                // You might want to clear any cached logo images here
-            }
-
             $this->dispatch('notify', message: 'Pengaturan berhasil diperbarui!', type: 'success');
         } catch (\Exception $e) {
             $this->dispatch('notify', message: 'Gagal memperbarui pengaturan: ' . $e->getMessage(), type: 'error');
-        }
-    }
-
-    public function deleteLogo($key)
-    {
-        try {
-            $setting = Setting::where('key', $key)->first();
-            
-            if ($setting && $setting->value) {
-                if (Storage::disk('public')->exists($setting->value)) {
-                    Storage::disk('public')->delete($setting->value);
-                }
-                
-                $setting->update(['value' => null]);
-                
-                $this->dispatch('notify', 
-                    message: ($key === 'logo-white' ? 'Logo dark mode' : 'Logo') . ' berhasil dihapus!', 
-                    type: 'success'
-                );
-                
-                $this->loadSettings();
-            }
-        } catch (\Exception $e) {
-            $this->dispatch('notify', 
-                message: 'Gagal menghapus ' . ($key === 'logo-white' ? 'logo dark mode' : 'logo') . ': ' . $e->getMessage(), 
-                type: 'error'
-            );
         }
     }
 
