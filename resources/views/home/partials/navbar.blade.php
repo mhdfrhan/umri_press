@@ -24,8 +24,8 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}" wire:navigate.hover>
-                        <img class="h-12 w-auto dark:hidden" src="{{ asset($settings['logo'] ?? 'assets/img/logo.png') }}" alt="Logo">
-                        <img class="h-12 w-auto hidden dark:block" src="{{ asset($settings['logo-white'] ?? 'assets/img/logo-white.png') }}"
+                        <img class="h-8 sm:h-10 w-auto dark:hidden" src="{{ asset($settings['logo'] ?? 'assets/img/logo.png') }}" alt="Logo">
+                        <img class="h-8 sm:h-10 w-auto hidden dark:block" src="{{ asset($settings['logo-white'] ?? 'assets/img/logo-white.png') }}"
                             alt="Logo">
                     </a>
                 </div>

@@ -368,7 +368,7 @@
         <x-container>
 
             <div class="mb-20">
-                <div class="flex justify-between items-end mb-8">
+                <div class="flex flex-wrap gap-4 justify-between items-end mb-8">
                     <div>
                         <h2 class="text-base font-semibold text-cgreen-500 tracking-wide uppercase">Buku Terbaru</h2>
                         <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-200">Koleksi Terbaru Kami
