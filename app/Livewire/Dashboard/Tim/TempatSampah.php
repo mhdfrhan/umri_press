@@ -147,10 +147,9 @@ class TempatSampah extends Component
             $count = $teams->count();
             Tim::onlyTrashed()->forceDelete();
 
-            // Update all remaining positions
             Tim::whereIn('position', function ($query) use ($positions) {
                 $query->select('position')
-                    ->from('tims')
+                    ->from('tim')
                     ->whereNotIn('position', $positions)
                     ->where('position', '>', min($positions));
             })->orderBy('position')
@@ -164,7 +163,7 @@ class TempatSampah extends Component
             $this->dispatch('notify', message: "$count anggota tim berhasil dihapus permanen!", type: 'success');
             $this->dispatch('close-modal', 'confirmForceDeleteAll');
         } catch (\Exception $e) {
-            $this->dispatch('notify', message: 'Terjadi kesalahan saat menghapus tim', type: 'error');
+            $this->dispatch('notify', message: 'Terjadi kesalahan saat menghapus tim ' . $e->getMessage(), type: 'error');
         }
     }
 

@@ -234,7 +234,7 @@
                         <a href="{{ route('daftarPenulis') }}" wire:navigate.hover
                             class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Daftar
                             Menerbitkan Buku</a>
-                        <a href="#"
+                        <a href="{{ route('penjelasanLayanan') }}" wire:navigate
                             class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Penjelasan
                             Layanan</a>
                         <a href="{{ route('kirimNaskah') }}" wire:navigate.hover

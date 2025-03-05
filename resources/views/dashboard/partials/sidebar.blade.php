@@ -33,11 +33,7 @@
                 </x-dropdown-link>
 
                 <!-- Authentication -->
-                <button wire:click="logout" class="w-full text-start">
-                    <x-dropdown-link>
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
-                </button>
+               <livewire:logout>
             </x-slot>
         </x-dropdown>
     </div>
