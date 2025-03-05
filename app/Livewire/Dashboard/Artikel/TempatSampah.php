@@ -137,10 +137,7 @@ class TempatSampah extends Component
             $count = $articles->count();
             Artikel::onlyTrashed()->forceDelete();
 
-            $this->dispatch('notify', [
-                'type' => 'success',
-                'message' => "$count artikel berhasil dihapus permanen!"
-            ]);
+            $this->dispatch('notify', message: "$count artikel berhasil dihapus permanen!", type: 'success');
 
             $this->dispatch('close-modal', 'confirmForceDeleteAll');
         } catch (\Exception $e) {
