@@ -14,7 +14,7 @@
 }"
     class="w-full z-50 transition-all duration-500">
     <div :class="{
-        'lg:w-6xl mx-auto rounded-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur border border-neutral-300 dark:border-neutral-900': scrolled,
+        'lg:w-7xl mx-auto rounded-2xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur border border-neutral-300 dark:border-neutral-900': scrolled,
         'rounded-none mx-auto bg-white dark:bg-neutral-950 w-full border-b border-neutral-300 dark:border-neutral-900':
             !scrolled
     }"
