@@ -26,6 +26,13 @@ class HomeController extends Controller
         ]);
     }
 
+    public function tentangKami()
+    {
+        return view('home.tentangKami', [
+            'title' => 'Tentang Kami',
+        ]);
+    }
+
     public function team()
     {
         return view('home.team', [
@@ -38,13 +45,16 @@ class HomeController extends Controller
     {
         return view('home.daftarPenulis', [
             'title' => 'Daftar Penulis',
+            'settings' => Pengaturan::pluck('value', 'key')
         ]);
     }
 
     public function kirimNaskah()
     {
+        $settings = Pengaturan::pluck('value', 'key');
         return view('home.kirimNaskah', [
             'title' => 'Kirim Naskah',
+            'settings' => $settings
         ]);
     }
 
@@ -98,12 +108,18 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
 
-        // update view count
         $article->increment('views');
 
         return view('home.detailArtikel', [
             'title' => $article->judul,
             'article' => $article,
+        ]);
+    }
+
+    public function progressISBN()
+    {
+        return view('home.progressISBN', [
+            'title' => 'Lihat Progress ISBN',
         ]);
     }
 }

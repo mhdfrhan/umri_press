@@ -50,7 +50,8 @@
     </section>
 
     <!-- Prosedur Pengiriman Naskah -->
-    <section class="py-20 bg-gradient-to-b from-cgreen-500 to-cgreen-700 text-white dark:from-cgreen-800 dark:to-cgreen-900">
+    <section
+        class="py-20 bg-gradient-to-b from-cgreen-500 to-cgreen-700 text-white dark:from-cgreen-800 dark:to-cgreen-900">
         <x-container>
             <h2 class="text-4xl font-bold text-center mb-10">Prosedur Kirim Naskah</h2>
             <div class="max-w-4xl mx-auto bg-white dark:bg-neutral-950 p-8 rounded-xl shadow-lg text-neutral-900">
@@ -236,12 +237,13 @@
                                 Prosiding
                             </li>
                         </ul>
-                        <a href="#"
-                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400 font-medium">
+                        <a href="{{ asset($settings['template-buku-a4'] ?? '#') }}"
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400 font-medium {{ !isset($settings['template-buku-a4']) ? 'cursor-not-allowed opacity-50' : '' }}"
+                            @if (!isset($settings['template-buku-a4'])) onclick="event.preventDefault()" @endif download>
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </a>
                     </div>
@@ -281,12 +283,13 @@
                                 Kumpulan Puisi
                             </li>
                         </ul>
-                        <a href="#"
-                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 font-medium">
+                        <a href="{{ asset($settings['template-buku-a5'] ?? '#') }}"
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400 font-medium {{ !isset($settings['template-buku-a5']) ? 'cursor-not-allowed opacity-50' : '' }}"
+                            @if (!isset($settings['template-buku-a5'])) onclick="event.preventDefault()" @endif download>
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </a>
                     </div>
@@ -342,14 +345,16 @@
                                 Book Chapter
                             </li>
                         </ul>
-                        <a href="#"
-                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 font-medium">
+                        <a href="{{ asset($settings['template-buku-unesco'] ?? '#') }}"
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400 font-medium {{ !isset($settings['template-buku-unesco']) ? 'cursor-not-allowed opacity-50' : '' }}"
+                            @if (!isset($settings['template-buku-unesco'])) onclick="event.preventDefault()" @endif download>
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </a>
+
                     </div>
                 </div>
 
@@ -387,12 +392,13 @@
                                 Buku Referensi
                             </li>
                         </ul>
-                        <a href="#"
-                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 font-medium">
+                        <a href="{{ asset($settings['template-buku-b5'] ?? '#') }}"
+                            class="inline-flex items-center text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-500 dark:hover:text-cgreen-400 font-medium {{ !isset($settings['template-buku-b5']) ? 'cursor-not-allowed opacity-50' : '' }}"
+                            @if (!isset($settings['template-buku-b5'])) onclick="event.preventDefault()" @endif download>
                             Unduh Template
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </a>
                     </div>

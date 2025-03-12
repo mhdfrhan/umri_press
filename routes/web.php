@@ -17,6 +17,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/artikel', 'artikel')->name('artikel');
     Route::get('/artikel/{slug}', 'detailArtikel')->name('detailArtikel');
     Route::get('/penjelasan-layanan', 'penjelasanLayanan')->name('penjelasanLayanan');
+    Route::get('/progress-isbn', 'progressISBN')->name('progressISBN');
+    Route::get('/tentang-kami', 'tentangKami')->name('tentangKami');
 });
 
 

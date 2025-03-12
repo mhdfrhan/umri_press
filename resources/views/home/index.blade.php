@@ -120,7 +120,7 @@
                     Sertifikat Kerja Sama
                 </h3>
                 <p class="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
-                    Bukti komitmen kami dalam menjalin kerja sama untuk meningkatkan kualitas layanan penerbitan akademik.
+                    Umri Press ditetapkan sejak 2 Januari 2023 resmi menjadi bagian dari anggota APPTIMA
                 </p>
             </div>
     
@@ -339,7 +339,7 @@
                     </div>
 
                     <div class="pt-4">
-                        <a href="#"
+                        <a href="{{ $settings['gform'] }}" target="_blank"
                             class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-cgreen-500 rounded-lg hover:bg-cgreen-600 transition-colors duration-300">
                             Kirim Naskah
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

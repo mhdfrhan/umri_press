@@ -33,14 +33,14 @@
                 <div class="hidden lg:flex items-center space-x-0.5">
                     <a href="{{ route('home') }}" wire:navigate.hover
                         class=" px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 {{ request()->routeIs('home') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : 'text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400' }}">
-                        Home
+                        Beranda
                     </a>
 
                     <!-- About Dropdown -->
                     <div class="relative" x-data="{ open: false }" @mouseover="open = true" @mouseleave="open = false">
                         <button
                             class="px-4 py-2 rounded-full text-sm transition-all duration-300 ease-in-out hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 inline-flex items-center cursor-pointer {{ request()->is('tentang*') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : 'text-neutral-700 dark:text-neutral-200 font-medium hover:text-cgreen-500 dark:hover:text-cgreen-400' }}">
-                            <span>About</span>
+                            <span>Tentang Kami</span>
                             <svg class="ml-1.5 h-4 w-4 transition-transform duration-200"
                                 :class="{ 'rotate-180': open }" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -63,12 +63,13 @@
                                         class="w-2 h-2 rounded-full bg-cgreen-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mr-3 {{ request()->routeIs('team') ? 'opacity-100' : '' }}"></span>
                                     Tim
                                 </a>
-                                <a href="#"
-                                    class="group flex items-center px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">
+                                <a href="{{ route('tentangKami') }}" wire:navigate
+                                    class="group flex items-center px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300 {{ request()->routeIs('tentangKami') ? 'bg-cgreen-50 dark:bg-cgreen-900/30 text-cgreen-500 dark:text-cgreen-400' : '' }}">
                                     <span
-                                        class="w-2 h-2 rounded-full bg-cgreen-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mr-3"></span>
-                                    Profil
+                                        class="w-2 h-2 rounded-full bg-cgreen-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mr-3 {{ request()->routeIs('tentangKami') ? 'opacity-100' : '' }}"></span>
+                                    Profil Usaha
                                 </a>
+                                
                                 <a href="#"
                                     class="group flex items-center px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">
                                     <span
@@ -118,6 +119,12 @@
                                         class="w-2 h-2 rounded-full bg-cgreen-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mr-3 {{ request()->routeIs('kirimNaskah') ? 'opacity-100' : '' }}"></span>
                                     Kirim Naskah
                                 </a>
+                                <a href="{{ route('progressISBN') }}" wire:navigate
+                                    class="group flex items-center px-4 py-3 text-sm hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300 {{ request()->routeIs('progressISBN') ? 'bg-cgreen-50 dark:bg-cgreen-900/30 text-cgreen-500 dark:text-cgreen-400' : 'text-neutral-700 dark:text-neutral-200' }}">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-cgreen-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mr-3 {{ request()->routeIs('progressISBN') ? 'opacity-100' : '' }}"></span>
+                                    Progress ISBN
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -140,7 +147,7 @@
                                 <x-primary-button>Dashboard</x-primary-button>
                             </a>
                         @else
-                            <a href="#">
+                            <a href="{{ $settings['gform'] }}" target="_blank">
                                 <x-primary-button>Kirim Naskah</x-primary-button>
                             </a>
                         @endauth
@@ -194,13 +201,13 @@
             class="lg:hidden bg-white/95 dark:bg-neutral-900/95 backdrop-blur overflow-y-auto max-h-screen overflow-hidden">
             <div class="px-4 pt-2 pb-3 space-y-1" x-cloak>
                 <a href="{{ route('home') }}" wire:navigate.hover
-                    class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Home</a>
+                    class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Beranda</a>
 
                 <!-- Mobile About Dropdown -->
                 <div x-data="{ open: false }">
                     <button @click="open = !open"
                         class="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300 flex justify-between items-center">
-                        <span>About</span>
+                        <span>Tentang Kami</span>
                         <svg class="h-4 w-4 transition-transform duration-200" :class="{ 'rotate-180': open }"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
@@ -211,8 +218,8 @@
                         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="pl-4">
                         <a href="{{ route('team') }}"
                             class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Tim</a>
-                        <a href="#"
-                            class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Profil</a>
+                        <a href="{{ route('tentangKami') }}"
+                            class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Profil Usaha</a>
                         <a href="#"
                             class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Testimonial</a>
                     </div>
