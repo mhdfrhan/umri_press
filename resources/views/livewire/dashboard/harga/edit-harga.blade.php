@@ -1,3 +1,117 @@
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+@endpush
+
+@push('scripts')
+    <script>
+        window.EditorManager = {
+            editors: {},
+
+            init() {
+                if (typeof Quill === 'undefined') {
+                    setTimeout(() => this.init(), 100);
+                    return;
+                }
+
+                if (!document.getElementById('konten')) {
+                    setTimeout(() => this.init(), 100);
+                    return;
+                }
+
+                const wireEl = document.querySelector('[wire\\:id]');
+                if (!wireEl) {
+                    console.warn('No Livewire component found');
+                    return;
+                }
+
+                const component = Livewire.find(wireEl.getAttribute('wire:id'));
+                if (!component) {
+                    console.warn('Could not find Livewire component instance');
+                    return;
+                }
+
+                const quillConfig = {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            ['blockquote', 'code-block'],
+                            [{
+                                'list': 'ordered'
+                            }, {
+                                'list': 'bullet'
+                            }],
+                            [{
+                                'header': [1, 2, 3, 4, 5, 6, false]
+                            }],
+                            [{
+                                'color': []
+                            }, {
+                                'background': []
+                            }],
+                            ['link', 'image'],
+                            ['clean']
+                        ]
+                    },
+                };
+
+                if (!this.editors.konten) {
+                    this.initializeEditor('konten', quillConfig, component);
+                }
+            },
+
+            initializeEditor(id, config, component) {
+                const element = document.getElementById(id);
+                if (!element) return;
+
+                const existingToolbar = element.parentNode.querySelector('.ql-toolbar');
+                if (existingToolbar) {
+                    existingToolbar.remove();
+                }
+
+                const editor = new Quill(`#${id}`, config);
+
+                const initialContent = component.get(id);
+                if (initialContent) {
+                    editor.root.innerHTML = initialContent;
+                }
+
+                editor.on('text-change', () => {
+                    const content = editor.root.innerHTML.trim();
+                    component.dispatch('set-konten', {
+                        content
+                    });
+                });
+
+                this.editors[id] = editor;
+            },
+
+            cleanup() {
+                Object.values(this.editors).forEach(editor => {
+                    if (editor && editor.container) {
+                        const parent = editor.container.parentNode;
+                        if (parent) {
+                            const toolbar = parent.querySelector('.ql-toolbar');
+                            if (toolbar) toolbar.remove();
+                        }
+                    }
+                });
+                this.editors = {};
+            }
+        };
+
+        document.addEventListener('livewire:initialized', () => {
+            setTimeout(() => window.EditorManager.init(), 100);
+        });
+
+        document.addEventListener('livewire:navigating', () => window.EditorManager.cleanup());
+        document.addEventListener('livewire:navigated', () => {
+            setTimeout(() => window.EditorManager.init(), 100);
+        });
+    </script>
+@endpush
+
 <div class="max-w-4xl mx-auto p-6">
     @include('components.alert')
 
@@ -17,72 +131,25 @@
         </div>
 
         <form wire:submit.prevent="save" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <x-input-label>Nama Paket <span class="text-cgreen-500">*</span></x-input-label>
-                    <x-text-input wire:model="nama" class="w-full mt-1" placeholder="Contoh: Paket 50 Eksemplar" />
-                    @error('nama')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div>
-                    <x-input-label>Jumlah Eksemplar <span class="text-cgreen-500">*</span></x-input-label>
-                    <x-text-input type="number" wire:model="jumlah_eksemplar" class="w-full mt-1" min="1" />
-                    @error('jumlah_eksemplar')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div>
-                    <x-input-label>Harga (Rp) <span class="text-cgreen-500">*</span></x-input-label>
-                    <x-text-input type="number" wire:model="harga" class="w-full mt-1" min="0" />
-                    @error('harga')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
+            <div>
+                <x-input-label>Nama Paket <span class="text-cgreen-500">*</span></x-input-label>
+                <x-text-input wire:model="nama" class="w-full mt-1" placeholder="Contoh: Paket Basic" />
+                @error('nama')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div>
-                <x-input-label>Fitur Paket <span class="text-cgreen-500">*</span></x-input-label>
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-2">
-                    Tambahkan fitur-fitur yang termasuk dalam paket ini.
-                </p>
-
-                <div class="space-y-2">
-                    @foreach($features as $index => $feature)
-                        <div class="flex gap-2">
-                            <x-text-input wire:model="features.{{ $index }}" class="w-full" 
-                                placeholder="Masukkan fitur paket" />
-                            <button type="button" wire:click="removeFeature({{ $index }})"
-                                class="text-cgreen-500 hover:text-cgreen-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>
-                    @endforeach
-
-                    @error('features')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+                <x-input-label class="block mb-2">Deskripsi</x-input-label>
+                <div wire:ignore>
+                    <div id="konten" class="h-96 bg-white dark:bg-neutral-800">{!! $deskripsi !!}</div>
                 </div>
-
-                <button type="button" wire:click="addFeature"
-                    class="mt-2 text-sm text-cgreen-600 hover:text-cgreen-700 dark:text-cgreen-400 dark:hover:text-cgreen-300">
-                    + Tambah Fitur Baru
-                </button>
+                @error('konten')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="flex flex-col gap-4">
-                <label class="inline-flex items-center">
-                    <input type="checkbox" wire:model="recommended"
-                        class="rounded border-neutral-300 text-cgreen-600 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
-                    <span class="ml-2">Set sebagai Paket Rekomendasi</span>
-                </label>
-
                 <label class="inline-flex items-center">
                     <input type="checkbox" wire:model="active"
                         class="rounded border-neutral-300 text-cgreen-600 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">

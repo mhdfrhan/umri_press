@@ -22,7 +22,7 @@
                 <div class="absolute inset-0 flex items-center justify-center bg-white dark:bg-neutral-800"
                     id="loading">
                     <div class="text-center">
-                        <svg class="animate-spin h-8 w-8 text-red-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg"
+                        <svg class="animate-spin h-8 w-8 text-cgreen-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                 stroke-width="4"></circle>

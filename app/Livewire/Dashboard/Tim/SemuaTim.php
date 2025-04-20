@@ -25,6 +25,8 @@ class SemuaTim extends Component
         foreach ($items as $item) {
             Tim::find($item['value'])->update(['position' => $item['order']]);
         }
+
+        $this->dispatch('notify', message: 'Urutan tim berhasil diperbarui!', type: 'success');
     }
 
     public function confirmDelete($id)

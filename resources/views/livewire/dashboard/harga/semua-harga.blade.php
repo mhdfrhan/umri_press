@@ -48,8 +48,6 @@
                     <option value="oldest">Terlama</option>
                     <option value="name_asc">Nama A-Z</option>
                     <option value="name_desc">Nama Z-A</option>
-                    <option value="price_low">Harga Terendah</option>
-                    <option value="price_high">Harga Tertinggi</option>
                 </select>
             </div>
         </div>
@@ -67,11 +65,7 @@
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
-                            Jumlah Eksemplar
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
-                            Harga
+                            Deskripsi
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
@@ -89,57 +83,41 @@
                         <tr wire:sortable.item="{{ $package->id }}" wire:key="package-{{ $package->id }}"
                             class="hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors duration-200">
                             <td wire:sortable.handle class="px-6 py-4 cursor-move">
-                                <svg class="size-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="size-5 text-neutral-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                    <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100 leading-none">
                                         {{ $package->nama }}
-                                        @if($package->recommended)
-                                            <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400">
-                                                Recommended
-                                            </span>
-                                        @endif
+                                        <p><span class="text-xs text-neutral-500 dark:text-neutral-400">{{ $package->slug }}</span></p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm text-neutral-900 dark:text-neutral-100">
-                                    {{ number_format($package->jumlah_eksemplar) }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-neutral-900 dark:text-neutral-100">
-                                    Rp {{ number_format($package->harga, 0, ',', '.') }}
+                                <div class="text-sm text-neutral-500 dark:text-neutral-400 max-w-xs line-clamp-2">
+                                    {!! \Illuminate\Support\Str::limit(strip_tags($package->deskripsi), 50) !!}
                                 </div>
                             </td>
                             <td class="px-6 py-4">
                                 <button wire:click="toggleActive({{ $package->id }})"
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                    {{ $package->active 
+                                    {{ $package->active
                                         ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
                                         : 'bg-neutral-100 text-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-400' }}">
                                     {{ $package->active ? 'Active' : 'Inactive' }}
                                 </button>
                             </td>
                             <td class="px-6 py-4 text-sm space-x-3">
-                                <button wire:click="toggleRecommended({{ $package->id }})"
-                                    class="{{ $package->recommended ? 'text-cgreen-600 hover:text-cgreen-900' : 'text-neutral-600 hover:text-neutral-900' }} dark:text-neutral-400 dark:hover:text-neutral-300">
-                                    @if($package->recommended)
-                                        Unset Recommended
-                                    @else
-                                        Set Recommended
-                                    @endif
-                                </button>
                                 <a href="{{ route('editPaket', $package->slug) }}" wire:navigate
                                     class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                                     Edit
                                 </a>
                                 <button wire:click="confirmDelete({{ $package->id }})"
-                                    class="text-cgreen-600 hover:text-cgreen-900 dark:text-cgreen-400 dark:hover:text-cgreen-300">
+                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                     Hapus
                                 </button>
                             </td>

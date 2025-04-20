@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('slug')->unique();
-            $table->integer('jumlah_eksemplar');
-            $table->decimal('harga', 12, 2);
-            $table->text('fitur')->nullable();
-            $table->boolean('recommended')->default(false);
+            $table->text('deskripsi');
             $table->boolean('active')->default(true);
             $table->integer('position')->default(0);
             $table->timestamps();

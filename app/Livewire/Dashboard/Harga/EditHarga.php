@@ -10,56 +10,45 @@ class EditHarga extends Component
 {
     public $paketId;
     public $nama;
-    public $jumlah_eksemplar;
-    public $harga;
-    public $features = [];
-    public $recommended;
+    public $deskripsi;
     public $active;
     public $slug;
+
+    protected $listeners = ['set-konten' => 'setKonten'];
 
     protected function rules()
     {
         return [
             'nama' => 'required|string|min:3|max:255',
-            'jumlah_eksemplar' => 'required|integer|min:1',
-            'harga' => 'required|numeric|min:0',
-            'features' => 'required|array|min:1',
-            'features.*' => 'required|string|min:3',
-            'recommended' => 'boolean',
+            'deskripsi' => 'required|string|min:10',
             'active' => 'boolean',
         ];
     }
 
     protected $messages = [
         'nama.required' => 'Nama paket harus diisi.',
-        'jumlah_eksemplar.required' => 'Jumlah eksemplar harus diisi.',
-        'harga.required' => 'Harga harus diisi.',
-        'features.required' => 'Minimal satu fitur harus diisi.',
-        'features.*.required' => 'Fitur tidak boleh kosong.',
+        'nama.min' => 'Nama paket minimal 3 karakter.',
+        'deskripsi.required' => 'Deskripsi paket harus diisi.',
+        'deskripsi.min' => 'Deskripsi paket minimal 10 karakter.',
     ];
+
+    public function setKonten($content)
+    {
+        if (is_array($content) && isset($content['content'])) {
+            $this->deskripsi = $content['content'];
+        } else {
+            $this->deskripsi = $content;
+        }
+    }
 
     public function mount($slug)
     {
         $paket = PaketPenerbit::where('slug', $slug)->firstOrFail();
         $this->paketId = $paket->id;
         $this->nama = $paket->nama;
-        $this->jumlah_eksemplar = $paket->jumlah_eksemplar;
-        $this->harga = $paket->harga;
-        $this->features = $paket->fitur;
-        $this->recommended = $paket->recommended;
+        $this->deskripsi = $paket->deskripsi;
         $this->active = $paket->active;
         $this->slug = $paket->slug;
-    }
-
-    public function addFeature()
-    {
-        $this->features[] = '';
-    }
-
-    public function removeFeature($index)
-    {
-        unset($this->features[$index]);
-        $this->features = array_values($this->features);
     }
 
     public function save()
@@ -69,20 +58,11 @@ class EditHarga extends Component
         try {
             $paket = PaketPenerbit::find($this->paketId);
 
-            if ($this->recommended) {
-                PaketPenerbit::where('id', '!=', $this->paketId)
-                    ->where('recommended', true)
-                    ->update(['recommended' => false]);
-            }
-
             $paket->update([
                 'nama' => $this->nama,
-                'slug' => Str::slug($this->nama),
-                'jumlah_eksemplar' => $this->jumlah_eksemplar,
-                'harga' => $this->harga,
-                'fitur' => $this->features,
-                'recommended' => $this->recommended,
-                'active' => $this->active,
+                'slug' => $this->generateSlug($this->nama),
+                'deskripsi' => $this->deskripsi,
+                'active' => $this->active
             ]);
 
             session()->flash('success', 'Paket berhasil diperbarui!');
@@ -90,6 +70,14 @@ class EditHarga extends Component
         } catch (\Exception $e) {
             $this->dispatch('notify', message: "Gagal memperbarui paket. {$e->getMessage()}", type: 'error');
         }
+    }
+
+    private function generateSlug($name)
+    {
+        $slug = Str::slug($name);
+        $count = PaketPenerbit::where('slug', 'like', "$slug%")->count();
+
+        return $count > 0 ? "{$slug}-{$count}" : $slug;
     }
 
     public function render()

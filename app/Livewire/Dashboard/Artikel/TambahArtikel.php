@@ -85,7 +85,7 @@ class TambahArtikel extends Component
                 'user_id' => auth()->id(),
                 'kategori_id' => $this->kategori_id,
                 'judul' => $this->judul,
-                'slug' => $this->slug,
+                'slug' => $this->generateSlug($this->judul),
                 'konten' => $this->konten,
                 'image' => $imagePath,
                 'thumbnail' => $thumbnailPath,
@@ -98,6 +98,18 @@ class TambahArtikel extends Component
         } catch (\Exception $e) {
             $this->dispatch('notify', message: $e->getMessage(), type: 'error');
         }
+    }
+
+    private function generateSlug($name)
+    {
+        $slug = Str::slug($name);
+        $count = Artikel::where('slug', 'like', "$slug%")->count();
+
+        if ($count > 0) {
+            $slug .= '-' . ($count + 1);
+        }
+
+        return $slug;
     }
 
     public function render()

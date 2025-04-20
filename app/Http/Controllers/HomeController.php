@@ -60,8 +60,13 @@ class HomeController extends Controller
 
     public function penjelasanLayanan()
     {
+        $packages = PaketPenerbit::where('active', true)
+        ->orderBy('position')
+        ->get();
+
         return view('home.penjelasanLayanan', [
             'title' => 'Penjelasan Layanan',
+            'packages' => $packages,
         ]);
     }
 

@@ -22,11 +22,11 @@ class SemuaHarga extends Component
 
     public function getPackages()
     {
-        return PaketPenerbit::when($this->search, function($query) {
-                $query->where('nama', 'like', '%' . $this->search . '%');
-            })
-            ->when($this->sortBy, function($query) {
-                switch($this->sortBy) {
+        return PaketPenerbit::when($this->search, function ($query) {
+            $query->where('nama', 'like', '%' . $this->search . '%');
+        })
+            ->when($this->sortBy, function ($query) {
+                switch ($this->sortBy) {
                     case 'newest':
                         $query->latest();
                         break;
@@ -39,12 +39,6 @@ class SemuaHarga extends Component
                     case 'name_desc':
                         $query->orderBy('nama', 'desc');
                         break;
-                    case 'price_low':
-                        $query->orderBy('harga', 'asc');
-                        break;
-                    case 'price_high':
-                        $query->orderBy('harga', 'desc');
-                        break;
                     default:
                         $query->orderBy('position');
                 }
@@ -55,8 +49,12 @@ class SemuaHarga extends Component
     public function updateOrder($items)
     {
         foreach ($items as $item) {
-            PaketPenerbit::find($item['value'])->update(['position' => $item['order']]);
+            PaketPenerbit::find($item['value'])->update([
+                'position' => $item['order']
+            ]);
         }
+
+        $this->dispatch('notify', message: 'Urutan paket berhasil diperbarui!', type: 'success');
     }
 
     public function toggleActive($id)
@@ -68,16 +66,6 @@ class SemuaHarga extends Component
         $this->dispatch('notify', message: 'Status paket berhasil diperbarui!', type: 'success');
     }
 
-    public function toggleRecommended($id)
-    {
-        PaketPenerbit::where('id', '!=', $id)->update(['recommended' => false]);
-        $package = PaketPenerbit::find($id);
-        $package->recommended = !$package->recommended;
-        $package->save();
-
-        $this->dispatch('notify', message: 'Status rekomendasi berhasil diperbarui!', type: 'success');
-    }
-
     public function confirmDelete($id)
     {
         $this->selectedId = $id;
@@ -87,7 +75,7 @@ class SemuaHarga extends Component
     public function delete()
     {
         $package = PaketPenerbit::find($this->selectedId);
-        
+
         if ($package) {
             $package->delete();
             $this->dispatch('notify', message: 'Paket berhasil dihapus!', type: 'success');

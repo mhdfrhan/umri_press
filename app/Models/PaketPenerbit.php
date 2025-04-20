@@ -13,13 +13,10 @@ class PaketPenerbit extends Model
 
     protected $fillable = [
         'nama',
-        'jumlah_eksemplar',
-        'harga',
-        'fitur',
-        'recommended',
-        'active',
+        'slug',
+        'deskripsi',
         'position',
-        'slug'
+        'active',
     ];
 
     protected $casts = [

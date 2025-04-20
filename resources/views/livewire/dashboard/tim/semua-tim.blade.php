@@ -117,7 +117,7 @@
                                         Edit
                                     </a>
                                     <button wire:click="confirmDelete({{ $member->id }})"
-                                        class="text-cgreen-600 hover:text-cgreen-900 dark:text-cgreen-400 dark:hover:text-cgreen-300">
+                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                         Hapus
                                     </button>
                                 </div>

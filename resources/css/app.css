@@ -98,3 +98,7 @@ button {
 textarea {
   @apply dark:placeholder:text-neutral-500 placeholder:text-neutral-400 placeholder:text-sm;
 }
+
+.ql-container {
+  @apply !font-sans;
+}

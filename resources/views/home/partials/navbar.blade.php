@@ -40,7 +40,7 @@
                     <div class="relative" x-data="{ open: false }" @mouseover="open = true" @mouseleave="open = false">
                         <button
                             class="px-4 py-2 rounded-full text-sm transition-all duration-300 ease-in-out hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 inline-flex items-center cursor-pointer {{ request()->is('tentang*') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : 'text-neutral-700 dark:text-neutral-200 font-medium hover:text-cgreen-500 dark:hover:text-cgreen-400' }}">
-                            <span>Tentang Kami</span>
+                            <span>Tentang</span>
                             <svg class="ml-1.5 h-4 w-4 transition-transform duration-200"
                                 :class="{ 'rotate-180': open }" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -128,9 +128,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <a href="{{ route('harga') }}" wire:navigate
-                        class="hover:text-cgreen-500 dark:hover:text-cgreen-400 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 {{ request()->routeIs('harga') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : 'text-neutral-700 dark:text-neutral-200' }}">Harga</a>
                     <a href="{{ route('tokoBuku') }}" wire:navigate
                         class="hover:text-cgreen-500 dark:hover:text-cgreen-400 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 {{ request()->routeIs('tokoBuku') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : 'text-neutral-700 dark:text-neutral-200' }}">Toko
                         Buku</a>
@@ -247,10 +244,12 @@
                         <a href="{{ route('kirimNaskah') }}" wire:navigate.hover
                             class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300 {{ request()->routeIs('kirimNaskah') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : '' }}">Kirim
                             Naskah</a>
+                        <a href="{{ route('progressISBN') }}" wire:navigate.hover
+                            class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300 {{ request()->routeIs('progressISBN') ? 'font-semibold text-cgreen-500 dark:text-cgreen-400' : '' }}">
+                            Progress ISBN
+                        </a>
                     </div>
                 </div>
-                <a href="{{ route('harga') }}" wire:navigate.hover
-                    class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Harga</a>
                 <a href="{{ route('tokoBuku') }}" wire:navigate.hover
                     class="block px-4 py-3 rounded-lg text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-cgreen-500 dark:hover:text-cgreen-400 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">Toko
                     Buku</a>
