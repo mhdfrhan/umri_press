@@ -41,11 +41,11 @@
             </div>
 
             <div class="hidden lg:block lg:w-1/2 bg-center bg-cover bg-no-repeat"
-                style="background-image: url('https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80');">
+                style="background-image: url('{{ asset('assets/img/login.jpg') }}');">
             </div>
         @else
             <div class="hidden lg:block lg:w-1/2 bg-center bg-cover bg-no-repeat"
-                style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80');">
+                style="background-image: url('{{ asset('assets/img/login.jpg') }}');">
             </div>
 
             <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-16">

@@ -69,7 +69,7 @@
                                         class="w-2 h-2 rounded-full bg-cgreen-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mr-3 {{ request()->routeIs('tentangKami') ? 'opacity-100' : '' }}"></span>
                                     Profil Usaha
                                 </a>
-                                
+
                                 <a href="#"
                                     class="group flex items-center px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-cgreen-100 dark:hover:bg-cgreen-900/50 transition-all duration-300">
                                     <span

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Buku;
 
+use App\Models\Authors;
 use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Support\Str;
@@ -30,10 +31,10 @@ class Tambah extends Component
     public $naskahList;
     public $draft;
     public $kategori_id;
-    public $penulis;
     public $institusi;
     public $ukuran;
     public $ketersediaan = true;
+    public $author_id = null;
     public $categories;
     public $marketplaces = [
         'shopee' => ['active' => false, 'link' => ''],
@@ -41,9 +42,14 @@ class Tambah extends Component
         'bukalapak' => ['active' => false, 'link' => ''],
         'lazada' => ['active' => false, 'link' => ''],
     ];
+    public $authorList = [];
+    public $daftar_isi = '';
+
     protected $listeners = [
         'set-deskripsi' => 'setDeskripsi',
-        'set-sinopsis' => 'setSinopsis'
+        'set-sinopsis' => 'setSinopsis',
+        'set-daftar-isi' => 'setDaftarIsi',
+        'item-selected' => 'handleAuthorSelected'
     ];
 
     protected function rules()
@@ -53,26 +59,28 @@ class Tambah extends Component
             'thumbnail' => 'nullable|image|max:1024',
             'judul' => 'required|min:3',
             'slug' => 'required|unique:buku,slug',
-            'deskripsi' => 'required|min:100',
-            'sinopsis' => 'required|min:100',
+            'deskripsi' => 'required|min:50',
+            'sinopsis' => 'required|min:50',
+            'daftar_isi' => 'required|min:10',
             'isbn' => 'required|unique:buku,isbn',
-            'harga' => 'required|numeric|min:10000',
-            'penulis' => 'required|string|min:3',
+            'harga' => 'required|numeric|min:0',
             'institusi' => 'nullable|string',
             'ukuran' => 'required|string',
             'ketersediaan' => 'boolean',
             'jumlah_halaman' => 'required|integer|min:1',
             'tanggal_terbit' => 'required|date',
             'draft' => 'nullable|boolean',
-            'marketplaces' => ['required', function ($attribute, $value, $fail) {
-                $activeMarketplaces = collect($value)->filter(fn($m) => $m['active'])->count();
-                if ($activeMarketplaces === 0) {
-                    $fail('Pilih minimal 1 marketplace.');
-                }
-            }],
+            // 'marketplaces' => ['nullable', function ($attribute, $value, $fail) {
+            //     $activeMarketplaces = collect($value)->filter(fn($m) => $m['active'])->count();
+            //     if ($activeMarketplaces === 0) {
+            //         $fail('Pilih minimal 1 marketplace.');
+            //     }
+            // }],
+            'marketplaces' => 'nullable',
+            'authorList' => 'required',
+            'author_id' => 'required|exists:authors,id',
         ];
 
-        // Add validation rules for active marketplace links
         foreach ($this->marketplaces as $marketplace => $data) {
             if ($data['active']) {
                 $rules["marketplaces.{$marketplace}.link"] = 'required|url';
@@ -109,14 +117,18 @@ class Tambah extends Component
         'marketplaces.*.link.required' => 'Link marketplace harus diisi.',
         'marketplaces.*.link.url' => 'Link marketplace harus berupa URL yang valid.',
         'kategori_id.required' => 'Kategori harus dipilih.',
-        'penulis.required' => 'Nama penulis harus diisi.',
-        'penulis.min' => 'Nama penulis minimal 3 karakter.',
         'ukuran.required' => 'Ukuran buku harus diisi.',
+        'authorList.required' => 'Penulis buku harus diisi.',
+        'daftar_isi.required' => 'Daftar isi buku harus diisi.',
+        'daftar_isi.min' => 'Daftar isi buku minimal 10 karakter.',
     ];
 
     public function mount()
     {
         $this->categories = Kategori::all();
+        $this->authorList = Authors::all()
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     public function updatedJudul($value)
@@ -125,13 +137,23 @@ class Tambah extends Component
         $slug = $baseSlug;
         $counter = 1;
 
-        // Check if slug exists and increment counter if needed
         while (Buku::where('slug', $slug)->exists()) {
             $slug = $baseSlug . '-' . $counter;
             $counter++;
         }
 
         $this->slug = $slug;
+    }
+
+    public function handleAuthorSelected($data)
+    {
+        if ($data['name'] === 'author') {
+            $this->author_id = $data['value'];
+            $author = Authors::find($data['value']);
+            if ($author) {
+                $this->institusi = $author->institusi ?? null;
+            }
+        }
     }
 
     public function setDeskripsi($content)
@@ -142,6 +164,11 @@ class Tambah extends Component
     public function setSinopsis($content)
     {
         $this->sinopsis = $content;
+    }
+
+    public function setDaftarIsi($content)
+    {
+        $this->daftar_isi = $content;
     }
 
     public function save()
@@ -160,22 +187,20 @@ class Tambah extends Component
             $thumbnailPath = null;
 
             if ($this->cover) {
-                // Store the full-size cover
                 $coverPath = $this->cover->store('assets/img/books/covers', 'public');
             }
 
             if ($this->thumbnail) {
-                // Store the thumbnail
                 $thumbnailPath = $this->thumbnail->store('assets/img/books/covers/thumbnails', 'public');
             }
 
-            // Create the book record with marketplace links
             $marketplaceLinks = collect($this->marketplaces)
                 ->filter(fn($m) => $m['active'])
                 ->map(fn($m) => $m['link'])
                 ->toArray();
 
             $buku = Buku::create([
+                'author_id' => $this->author_id,
                 'kategori_id' => $this->kategori_id,
                 'cover' => $coverPath,
                 'cover_thumbnail' => $thumbnailPath,
@@ -183,9 +208,9 @@ class Tambah extends Component
                 'slug' => $this->slug,
                 'deskripsi' => $this->deskripsi,
                 'sinopsis' => $this->sinopsis,
+                'daftar_isi' => $this->daftar_isi,
                 'isbn' => $this->isbn,
                 'harga' => $this->harga,
-                'penulis' => $this->penulis,
                 'institusi' => $this->institusi,
                 'ukuran' => $this->ukuran,
                 'ketersediaan' => $this->ketersediaan,
@@ -197,7 +222,6 @@ class Tambah extends Component
 
             DB::commit();
 
-            // Reset form
             $this->reset([
                 'cover',
                 'thumbnail',
@@ -212,15 +236,12 @@ class Tambah extends Component
                 'tempImage'
             ]);
 
-            // Show success notification
             session()->flash('success', 'Buku berhasil disimpan.');
 
-            // Redirect to book list or detail page
             return $this->redirect(route('semuaBuku'));
         } catch (\Exception $e) {
             DB::rollBack();
 
-            // Show error notification
             $this->dispatch('notify', message: "Terjadi kesalahan saat menyimpan buku: {$e->getMessage()}", type: 'error');
         }
     }

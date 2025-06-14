@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">
         @forelse($books as $book)
             <div class="group">
                 <div
@@ -31,16 +31,16 @@
 
                         <div
                             class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <button wire:click="showDetail('{{ $book->slug }}')"
+                            <a href="{{ route('detailBuku', $book->slug) }}" wire:navigate
                                 class="bg-cgreen-500 hover:bg-cgreen-600 text-white px-4 py-2 rounded-full text-sm font-medium transform -translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                                 Lihat Detail
-                            </button>
+                            </a>
                         </div>
                     </div>
 
                     <div class="p-4">
                         <h3
-                            class="text-lg font-semibold text-neutral-800 dark:text-neutral-200 line-clamp-2 group-hover:text-cgreen-500 transition-colors duration-200">
+                            class="font-semibold text-neutral-800 dark:text-neutral-200 line-clamp-2 group-hover:text-cgreen-500 transition-colors duration-200 capitalize">
                             {{ $book->judul }}
                         </h3>
                         <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
@@ -48,7 +48,7 @@
                         </p>
                         <div class="mt-2 flex justify-between items-center">
                             <span class="text-lg font-semibold text-cgreen-500">
-                                Rp {{ number_format($book->harga, 0, ',', '.') }}
+                                Rp. {{ number_format($book->harga, 0, ',', '.') }}
                             </span>
                             @if ($book->marketplace_links)
                                 <button wire:click="showMarketplaces('{{ $book->slug }}')"

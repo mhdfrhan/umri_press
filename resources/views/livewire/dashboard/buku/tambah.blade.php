@@ -11,7 +11,34 @@
         <h2 class="text-2xl font-bold mb-6">Tambah Buku Baru</h2>
 
         <form wire:submit.prevent="save" class="space-y-6">
-            <!-- Cover Image Upload -->
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                    <x-input-label class="block mb-2">
+                        Kategori
+                    </x-input-label>
+                    <select wire:model="kategori_id"
+                        class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
+                        <option value="">Pilih kategori...</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('kategori_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <x-input-label class="block mb-2">
+                        Penulis
+                    </x-input-label>
+                    <livewire:components.searchable-select :name="'author'" :items="$authorList" :placeholder="'Pilih penulis...'"
+                        :selected="$author_id" />
+                    @error('author_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
             <div>
                 <x-input-label class="block mb-2">
                     Cover Buku (Ukuran yang disarankan: 600x900px)
@@ -48,7 +75,6 @@
                 @enderror
             </div>
 
-            <!-- Judul -->
             <div>
                 <x-input-label class="block mb-2">
                     Judul
@@ -59,7 +85,6 @@
                 @enderror
             </div>
 
-            <!-- Slug -->
             <div>
                 <x-input-label class="block mb-2">
                     Slug
@@ -71,7 +96,6 @@
                 @enderror
             </div>
 
-            <!-- Deskripsi -->
             <div>
                 <x-input-label class="block mb-2">
                     Deskripsi
@@ -84,7 +108,6 @@
                 @enderror
             </div>
 
-            <!-- Sinopsis -->
             <div>
                 <x-input-label class="block mb-2">
                     Sinopsis
@@ -97,36 +120,19 @@
                 @enderror
             </div>
 
+            <div>
+                <x-input-label class="block mb-2">
+                    Daftar Isi
+                </x-input-label>
+                <div wire:ignore>
+                    <div id="daftar-isi" class="h-72 bg-white dark:bg-neutral-800"></div>
+                </div>
+                @error('daftar_isi')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <!-- Kategori -->
-                <div>
-                    <x-input-label class="block mb-2">
-                        Kategori
-                    </x-input-label>
-                    <select wire:model="kategori_id"
-                        class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
-                        <option value="">Pilih kategori...</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->nama }}</option>
-                        @endforeach
-                    </select>
-                    @error('kategori_id')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Penulis -->
-                <div>
-                    <x-input-label class="block mb-2">
-                        Penulis
-                    </x-input-label>
-                    <x-text-input type="text" wire:model="penulis" class="w-full block" placeholder="Nama penulis" />
-                    @error('penulis')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Institusi -->
                 <div>
                     <x-input-label class="block mb-2">
                         Institusi
@@ -138,7 +144,6 @@
                     @enderror
                 </div>
 
-                <!-- ISBN -->
                 <div>
                     <x-input-label class="block mb-2">
                         ISBN
@@ -150,7 +155,6 @@
                     @enderror
                 </div>
 
-                <!-- Harga -->
                 <div>
                     <x-input-label class="block mb-2">
                         Harga
@@ -166,7 +170,6 @@
                     @enderror
                 </div>
 
-                <!-- Jumlah Halaman -->
                 <div>
                     <x-input-label class="block mb-2">
                         Jumlah Halaman
@@ -177,7 +180,6 @@
                     @enderror
                 </div>
 
-                <!-- Tanggal Terbit -->
                 <div>
                     <x-input-label class="block mb-2">
                         Tanggal Terbit
@@ -188,7 +190,6 @@
                     @enderror
                 </div>
 
-                <!-- Ukuran -->
                 <div>
                     <x-input-label class="block mb-2">
                         Ukuran
@@ -201,7 +202,6 @@
                 </div>
             </div>
 
-            <!-- Ketersediaan -->
             <div class="mt-4">
                 <label class="inline-flex items-center">
                     <input type="checkbox" wire:model="ketersediaan"
@@ -210,14 +210,12 @@
                 </label>
             </div>
 
-            <!-- Marketplace Links -->
             <div class="space-y-4">
                 <div>
                     <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Link Marketplace</h3>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400">Minimal pilih 1 marketplace</p>
                 </div>
 
-                <!-- Shopee -->
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.shopee.active"
@@ -235,7 +233,6 @@
                     @endif
                 </div>
 
-                <!-- Tokopedia -->
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.tokopedia.active"
@@ -253,7 +250,6 @@
                     @endif
                 </div>
 
-                <!-- Bukalapak -->
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.bukalapak.active"
@@ -271,7 +267,6 @@
                     @endif
                 </div>
 
-                <!-- Lazada -->
                 <div class="space-y-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="marketplaces.lazada.active"
@@ -304,7 +299,6 @@
                 </label>
             </div>
 
-            <!-- Submit Button -->
             <div class="flex justify-end">
                 <x-primary-button type="submit">
                     Simpan Buku
@@ -421,7 +415,7 @@
                                     @this.upload('thumbnail', thumbnailFile,
                                         (thumbnailFilename) => {
                                             const previewImage = document.getElementById(
-                                            'previewImage');
+                                                'previewImage');
                                             if (previewImage) {
                                                 previewImage.src = URL.createObjectURL(thumbnailFile);
                                             }
@@ -488,7 +482,9 @@
                         return;
                     }
 
-                    if (!document.getElementById('deskripsi') || !document.getElementById('sinopsis')) {
+                    if (!document.getElementById('deskripsi') ||
+                        !document.getElementById('sinopsis') ||
+                        !document.getElementById('daftar-isi')) {
                         setTimeout(() => this.init(), 100);
                         return;
                     }
@@ -535,6 +531,9 @@
                     }
                     if (!this.editors.sinopsis) {
                         this.initializeEditor('sinopsis', quillConfig, component);
+                    }
+                    if (!this.editors['daftar-isi']) {
+                        this.initializeEditor('daftar-isi', quillConfig, component);
                     }
                 },
 

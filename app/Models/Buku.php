@@ -20,4 +20,8 @@ class Buku extends Model
     public function kategori() {
         return $this->belongsTo(Kategori::class);
     }
+
+    public function author() {
+        return $this->belongsTo(Authors::class, 'author_id');
+    }
 }

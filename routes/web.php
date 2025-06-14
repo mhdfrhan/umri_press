@@ -13,6 +13,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/layanan/kirim-naskah', 'kirimNaskah')->name('kirimNaskah');
     Route::get('/harga', 'harga')->name('harga');
     Route::get('/toko-buku', 'tokoBuku')->name('tokoBuku');
+    Route::get('/detail-buku/{slug}', 'detailBuku')->name('detailBuku');
     Route::get('/kontak', 'kontak')->name('kontak');
     Route::get('/artikel', 'artikel')->name('artikel');
     Route::get('/artikel/{slug}', 'detailArtikel')->name('detailArtikel');
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
 
         // kategori buku
         Route::get('/dashboard/buku/kategori/semua-kategori', 'semuaKategori')->name('semuaKategori');
+
+        // authors
+        Route::get('/dashboard/authors/semua-authors', 'semuaAuthors')->name('semuaAuthors');
 
         // artikel
         Route::get('/dashboard/artikel/semua-artikel', 'semuaArtikel')->name('semuaArtikel');

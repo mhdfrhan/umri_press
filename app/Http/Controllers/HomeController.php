@@ -88,6 +88,25 @@ class HomeController extends Controller
         ]);
     }
 
+    public function detailBuku($slug)
+    {
+        $book = Buku::with(['kategori', 'author'])
+            ->where('slug', $slug)
+            ->where('status', 1)
+            ->first();
+
+        if (!$book) {
+            return redirect()->route('home');
+        }
+
+        // $book->increment('views');
+
+        return view('home.detailBuku', [
+            'title' => $book->judul,
+            'book' => $book,
+        ]);
+    }
+
     public function kontak()
     {
         return view('home.kontak', [

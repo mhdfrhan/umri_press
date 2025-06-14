@@ -57,6 +57,13 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function semuaAuthors()
+    {
+        return view('dashboard.authors.semua-authors', [
+            'title' => 'Semua Authors',
+        ]);
+    }
+
     public function tempatSampah()
     {
         return view('dashboard.buku.tempat-sampah', [

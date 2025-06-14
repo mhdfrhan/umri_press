@@ -99,8 +99,8 @@
                                     class="w-16 h-24 object-cover rounded-lg shadow-sm">
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                                    {{ $book->title }}
+                                <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100 capitalize">
+                                    {{ $book->judul }}
                                 </div>
                                 <div class="text-sm text-neutral-500 dark:text-neutral-400">
                                     ISBN: {{ $book->isbn }}
@@ -177,18 +177,18 @@
         </div>
     </x-modal>
 
-    <x-modal name="detailModal" :show="false" maxWidth="2xl">
+    <x-modal name="detailModal" :show="false" maxWidth="7xl" align="center">
         <div class="p-6">
             @if ($selectedBook)
                 <div class="flex flex-col md:flex-row gap-6">
                     <!-- Book Cover -->
-                    <div class="w-full md:w-1/3">
+                    <div class="w-full md:w-1/4">
                         <img src="{{ asset($selectedBook->cover) }}" alt="{{ $selectedBook->judul }}"
                             class="w-full h-auto rounded-lg shadow-lg">
                     </div>
 
                     <!-- Book Information -->
-                    <div class="w-full md:w-2/3 space-y-4">
+                    <div class="w-full md:w-3/4 space-y-4">
                         <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
                             {{ $selectedBook->judul }}
                         </h2>
@@ -220,7 +220,7 @@
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">Penulis:</span>
                                 <span
-                                    class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->penulis }}</span>
+                                    class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->author->name }}</span>
                             </div>
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">ISBN:</span>
