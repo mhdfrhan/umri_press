@@ -13,15 +13,23 @@ class Buku extends Model
     protected $guarded = ['id'];
     protected $with = ['kategori'];
 
-    public function naskah() {
+    public function naskah()
+    {
         return $this->belongsTo(Naskah::class);
     }
 
-    public function kategori() {
+    public function kategori()
+    {
         return $this->belongsTo(Kategori::class);
     }
 
-    public function author() {
+    public function author()
+    {
         return $this->belongsTo(Authors::class, 'author_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'buku_id')->whereNull('parent_id')->where('is_approved', true)->latest();
     }
 }

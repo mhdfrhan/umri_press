@@ -183,4 +183,11 @@ class DashboardController extends Controller
             'title' => 'Pengaturan Web',
         ]);
     }
+
+    public function semuaKomentar()
+    {
+        return view('dashboard.komentar.semua-komentar', [
+            'title' => 'Semua Komentar',
+        ]);
+    }
 }

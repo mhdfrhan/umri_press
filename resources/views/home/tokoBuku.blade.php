@@ -25,7 +25,6 @@
     <section class="pb-24">
         <x-container>
             <livewire:home.toko-buku>
-           
         </x-container>
     </section>
 </x-main-layout>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Buku;
 
+use App\Models\Authors;
 use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Support\Str;
@@ -29,12 +30,12 @@ class EditBuku extends Component
     public $tempImage;
     public $draft;
     public $kategori_id;
-    public $penulis;
     public $institusi;
     public $ukuran;
     public $ketersediaan = true;
     public $categories;
     public $oldCover;
+    public $author_id = null;
     public $oldThumbnail;
     public $marketplaces = [
         'shopee' => ['active' => false, 'link' => ''],
@@ -42,10 +43,14 @@ class EditBuku extends Component
         'bukalapak' => ['active' => false, 'link' => ''],
         'lazada' => ['active' => false, 'link' => ''],
     ];
+    public $authorList = [];
+    public $daftar_isi = '';
 
     protected $listeners = [
         'set-deskripsi' => 'setDeskripsi',
-        'set-sinopsis' => 'setSinopsis'
+        'set-sinopsis' => 'setSinopsis',
+        'set-daftar-isi' => 'setDaftarIsi',
+        'item-selected' => 'handleAuthorSelected'
     ];
 
     public function mount(Buku $buku)
@@ -60,7 +65,6 @@ class EditBuku extends Component
         $this->jumlah_halaman = $buku->jumlah_halaman;
         $this->tanggal_terbit = $buku->tanggal_terbit;
         $this->kategori_id = $buku->kategori_id;
-        $this->penulis = $buku->penulis;
         $this->institusi = $buku->institusi;
         $this->ukuran = $buku->ukuran;
         $this->ketersediaan = $buku->ketersediaan;
@@ -80,6 +84,12 @@ class EditBuku extends Component
                 }
             }
         }
+
+        $this->authorList = Authors::all()
+            ->pluck('name', 'id')
+            ->toArray();
+        $this->author_id = $buku->author_id;
+        $this->daftar_isi = $buku->daftar_isi;
     }
 
     protected function rules()
@@ -91,14 +101,16 @@ class EditBuku extends Component
             'slug' => 'required|unique:buku,slug,' . $this->bukuId,
             'deskripsi' => 'required|min:100',
             'sinopsis' => 'required|min:100',
+            'daftar_isi' => 'required|min:10',
             'isbn' => 'required|unique:buku,isbn,' . $this->bukuId,
-            'harga' => 'required|numeric|min:10000',
+            'harga' => 'required|numeric|min:0',
             'jumlah_halaman' => 'required|integer|min:1',
             'tanggal_terbit' => 'required|date',
             'kategori_id' => 'required',
-            'penulis' => 'required|min:3',
             'ukuran' => 'required',
-            'marketplaces.*.link' => 'required_if:marketplaces.*.active,true|url'
+            'marketplaces' => 'nullable',
+            'authorList' => 'required',
+            'author_id' => 'required|exists:authors,id',
         ];
     }
 
@@ -121,7 +133,23 @@ class EditBuku extends Component
     {
         $this->deskripsi = $content;
     }
-    
+
+    public function handleAuthorSelected($data)
+    {
+        if ($data['name'] === 'author') {
+            $this->author_id = $data['value'];
+            $author = Authors::find($data['value']);
+            if ($author) {
+                $this->institusi = $author->institusi ?? null;
+            }
+        }
+    }
+
+    public function setDaftarIsi($content)
+    {
+        $this->daftar_isi = $content;
+    }
+
 
     public function setSinopsis($content)
     {
@@ -163,9 +191,10 @@ class EditBuku extends Component
                 'slug' => $this->slug,
                 'deskripsi' => $this->deskripsi,
                 'sinopsis' => $this->sinopsis,
+                'daftar_isi' => $this->daftar_isi,
                 'isbn' => $this->isbn,
                 'harga' => $this->harga,
-                'penulis' => $this->penulis,
+                'author_id' => $this->author_id,
                 'institusi' => $this->institusi,
                 'ukuran' => $this->ukuran,
                 'ketersediaan' => $this->ketersediaan,

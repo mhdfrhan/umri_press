@@ -3,13 +3,15 @@
 namespace App\Livewire\Dashboard\Authors;
 
 use App\Models\Authors;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class SemuaAuthors extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $search = '';
     public $sortBy = 'newest';
@@ -17,10 +19,13 @@ class SemuaAuthors extends Component
     public $authorId;
     public $name;
     public $description;
+    public $image;
+    public $imagePreview;
 
     protected $rules = [
         'name' => 'required|min:3',
         'description' => 'required|min:10',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
 
     protected $messages = [
@@ -28,6 +33,10 @@ class SemuaAuthors extends Component
         'name.min' => 'Nama penulis minimal 3 karakter.',
         'description.required' => 'Deskripsi penulis harus diisi.',
         'description.min' => 'Deskripsi penulis minimal 10 karakter.',
+        'image.required' => 'Gambar penulis harus diisi.',
+        'image.image' => 'Gambar penulis harus berupa gambar.',
+        'image.mimes' => 'Gambar penulis harus berupa gambar (jpeg, png, jpg, gif, svg).',
+        'image.max' => 'Gambar penulis maksimal 2MB.',
     ];
 
     public function save()
@@ -35,18 +44,22 @@ class SemuaAuthors extends Component
         $this->validate();
 
         try {
+            $imageName = Str::slug($this->name) . '-' . time() . '.' . $this->image->getClientOriginalExtension();
+            $path = $this->image->storeAs('authors', $imageName, 'public');
+
             Authors::create([
                 'name' => $this->name,
-                'slug' => Str::slug($this->name),
+                'slug' => $this->generateSlug($this->name),
                 'description' => $this->description,
+                'image' => $path,
             ]);
 
             $this->reset(['name', 'description']);
             $this->dispatch('notify', message: "Penulis berhasil ditambahkan.", type: 'success');
-            $this->dispatch('close-modal', 'authorModal'); 
+            $this->dispatch('close-modal', 'authorModal');
         } catch (\Exception $e) {
             $this->dispatch('notify', message: "Terjadi kesalahan saat menambahkan penulis.", type: 'error');
-            $this->dispatch('close-modal', 'authorModal'); 
+            $this->dispatch('close-modal', 'authorModal');
         }
     }
 
@@ -56,6 +69,7 @@ class SemuaAuthors extends Component
         $this->authorId = $author->id;
         $this->name = $author->name;
         $this->description = $author->description;
+        $this->imagePreview = $author->image;
     }
 
     public function update()
@@ -64,10 +78,21 @@ class SemuaAuthors extends Component
 
         try {
             $author = Authors::find($this->authorId);
+
+            if ($this->image) {
+                if ($author->image) {
+                    Storage::disk('public')->delete($author->image);
+                }
+                $imageName = Str::slug($this->name) . '-' . time() . '.' . $this->image->getClientOriginalExtension();
+                $path = $this->image->storeAs('authors', $imageName, 'public');
+                $author->image = $path;
+            }
+
             $author->update([
                 'name' => $this->name,
                 'slug' => Str::slug($this->name),
                 'description' => $this->description,
+                'image' => $author->image,
             ]);
 
             $this->reset(['authorId', 'name', 'description']);
@@ -82,7 +107,7 @@ class SemuaAuthors extends Component
 
     public function resetForm()
     {
-        $this->reset(['authorId', 'name', 'description']);
+        $this->reset(['authorId', 'name', 'description', 'image', 'imagePreview']);
         $this->resetValidation();
     }
 
@@ -95,7 +120,11 @@ class SemuaAuthors extends Component
     public function delete()
     {
         try {
-            Authors::find($this->authorId)->delete();
+            $author = Authors::find($this->authorId);
+            if ($author->image) {
+                Storage::disk('public')->delete($author->image);
+            }
+            $author->delete();
             $this->reset(['authorId']);
             $this->dispatch('close-modal', 'showDeleteModal');
             $this->dispatch('notify', message: "Penulis berhasil dihapus.", type: 'success');
@@ -107,7 +136,7 @@ class SemuaAuthors extends Component
 
     public function closeModal()
     {
-        $this->reset(['authorId', 'name', 'description']);
+        $this->reset(['authorId', 'name', 'description', 'image']);
         $this->resetValidation();
     }
 
@@ -137,5 +166,16 @@ class SemuaAuthors extends Component
         return view('livewire.dashboard.authors.semua-authors', [
             'authors' => $query->paginate(10)
         ]);
+    }
+
+    private function generateSlug($name)
+    {
+        $slug = Str::slug($name);
+        $count = 1;
+        while (Authors::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . $count;
+            $count++;
+        }
+        return $slug;
     }
 }

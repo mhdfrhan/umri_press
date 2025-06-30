@@ -103,3 +103,6 @@ textarea {
   @apply !font-sans;
 }
 
+input[type="file"] {
+  @apply border border-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500 rounded-lg placeholder:text-neutral-400 placeholder:text-sm dark:text-neutral-200 dark:bg-neutral-800 dark:border-neutral-600 dark:placeholder:text-neutral-500 p-2 file:bg-cgreen-50 file:py-1.5 file:px-3 file:rounded-full file:text-xs file:mr-4 file:border-0 file:font-medium hover:file:bg-cgreen-100;
+}

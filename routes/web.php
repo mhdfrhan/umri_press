@@ -20,6 +20,14 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/penjelasan-layanan', 'penjelasanLayanan')->name('penjelasanLayanan');
     Route::get('/progress-isbn', 'progressISBN')->name('progressISBN');
     Route::get('/tentang-kami', 'tentangKami')->name('tentangKami');
+    Route::get('/kategori', 'kategoriBuku')->name('kategori');
+
+    // auhtor
+    Route::get('/penulis/{slug}', 'detailAuthor')->name('author');
+
+    // Komentar Buku
+    Route::post('/buku/{buku}/komentar', 'submitComment')->name('buku.comment');
+    Route::post('/buku/{buku}/komentar/{parent}', 'submitReply')->name('buku.comment.reply');
 });
 
 
@@ -27,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('dashboard');
 
-        
+
         // buku
         Route::get('/dashboard/buku/semua-buku', 'semuaBuku')->name('semuaBuku');
         Route::get('/dashboard/buku/tambah-buku', 'tambahBuku')->name('tambahBuku');
@@ -66,6 +74,9 @@ Route::middleware(['auth'])->group(function () {
 
         // pengaturan
         Route::get('/dashboard/pengaturan', 'pengaturanWeb')->name('pengaturanWeb');
+
+        // komentar
+        Route::get('/dashboard/buku/komentar', 'semuaKomentar')->name('semuaKomentar');
     });
 });
 
@@ -73,4 +84,4 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

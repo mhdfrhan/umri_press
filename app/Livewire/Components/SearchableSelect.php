@@ -31,6 +31,11 @@ class SearchableSelect extends Component
 
     public function getFilteredItemsProperty()
     {
+        if (strlen($this->search) < 3) {
+            $this->placeholder = 'Type at least 3 characters...';
+            return [];
+        }
+
         if (empty($this->search)) {
             return $this->items;
         }

@@ -93,6 +93,12 @@
                                 Tambah Buku
                             </a>
                         </li>
+                        <li class="px-1 py-0.5 first:mt-2">
+                            <a href="{{ route('semuaKomentar') }}" wire:navigate
+                                class="flex items-center rounded-lg gap-2 px-4 py-1.5 focus:outline-none font-medium border duration-150 {{ request()->routeIs('semuaKomentar') ? 'border-neutral-300 text-neutral-800 dark:text-neutral-200 dark:border-neutral-800' : 'border-transparent hover:border-neutral-300 text-neutral-600 hover:text-neutral-800 dark:hover:border-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200' }}">
+                                Semua Komentar
+                            </a>
+                        </li>
                     </ul>
 
                 </x-nav-dropdown>

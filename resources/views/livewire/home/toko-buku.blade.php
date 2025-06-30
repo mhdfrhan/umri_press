@@ -50,7 +50,7 @@
                             <span class="text-lg font-semibold text-cgreen-500">
                                 Rp. {{ number_format($book->harga, 0, ',', '.') }}
                             </span>
-                            @if ($book->marketplace_links)
+                            @if ($book->marketplace_links && $book->marketplace_links !== '[]')
                                 <button wire:click="showMarketplaces('{{ $book->slug }}')"
                                     class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-cgreen-500 dark:hover:text-cgreen-400">
                                     Beli
@@ -79,80 +79,6 @@
         </div>
     @endif
 
-    <x-modal name="detailModal" :show="false" maxWidth="4xl">
-        <div class="p-6">
-            @if ($selectedBook)
-                <div class="flex flex-col md:flex-row gap-8">
-                    <div class="w-full md:w-1/3">
-                        <img src="{{ asset($selectedBook->cover) }}" alt="{{ $selectedBook->judul }}"
-                            class="w-full rounded-lg shadow-lg">
-                    </div>
-
-                    <div class="w-full md:w-2/3 space-y-6">
-                        <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-                            {{ $selectedBook->judul }}
-                        </h2>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <span class="text-neutral-500 dark:text-neutral-400">ISBN:</span>
-                                <span
-                                    class="ml-2 text-neutral-900 dark:text-neutral-100">{{ $selectedBook->isbn }}</span>
-                            </div>
-                            <div>
-                                <span class="text-neutral-500 dark:text-neutral-400">Halaman:</span>
-                                <span
-                                    class="ml-2 text-neutral-900 dark:text-neutral-100">{{ $selectedBook->jumlah_halaman }}</span>
-                            </div>
-                            <div>
-                                <span class="text-neutral-500 dark:text-neutral-400">Terbit:</span>
-                                <span class="ml-2 text-neutral-900 dark:text-neutral-100">
-                                    {{ \Carbon\Carbon::parse($selectedBook->tanggal_terbit)->format('d F Y') }}
-                                </span>
-                            </div>
-                            <div>
-                                <span class="text-neutral-500 dark:text-neutral-400">Harga:</span>
-                                <span class="ml-2 text-cgreen-500 font-semibold">
-                                    Rp {{ number_format($selectedBook->harga, 0, ',', '.') }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Sinopsis</h3>
-                            <div class="prose dark:prose-invert max-w-none text-sm">
-                                {!! $selectedBook->sinopsis !!}
-                            </div>
-                        </div>
-
-                        @if ($selectedBook->marketplace_links)
-                            <div class="space-y-2">
-                                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                                    Beli di Marketplace
-                                </h3>
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach (json_decode($selectedBook->marketplace_links, true) as $marketplace => $link)
-                                        <a href="{{ $link }}" target="_blank" rel="noopener noreferrer"
-                                            class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
-                                            bg-neutral-100 text-neutral-700 hover:bg-neutral-200
-                                            dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-600
-                                            transition-colors duration-200">
-                                            <span class="capitalize">{{ $marketplace }}</span>
-                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                            </svg>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endif
-        </div>
-    </x-modal>
 
     <x-modal name="marketplacesModal" :show="false" maxWidth="md">
         <div class="p-6">

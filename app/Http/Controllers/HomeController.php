@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use App\Models\Authors;
 use App\Models\Buku;
 use App\Models\PaketPenerbit;
 use App\Models\Pengaturan;
@@ -61,8 +62,8 @@ class HomeController extends Controller
     public function penjelasanLayanan()
     {
         $packages = PaketPenerbit::where('active', true)
-        ->orderBy('position')
-        ->get();
+            ->orderBy('position')
+            ->get();
 
         return view('home.penjelasanLayanan', [
             'title' => 'Penjelasan Layanan',
@@ -90,20 +91,32 @@ class HomeController extends Controller
 
     public function detailBuku($slug)
     {
-        $book = Buku::with(['kategori', 'author'])
-            ->where('slug', $slug)
-            ->where('status', 1)
-            ->first();
-
-        if (!$book) {
-            return redirect()->route('home');
-        }
-
-        // $book->increment('views');
-
+        $book = Buku::with(['kategori', 'author', 'comments.replies'])->where('slug', $slug)->where('status', true)->firstOrFail();
+        $relatedBooks = Buku::where('status', true)
+            ->where('id', '!=', $book->id)
+            ->where(function ($query) use ($book) {
+                $query->where('author_id', $book->author_id)
+                    ->orWhere('kategori_id', $book->kategori_id);
+            })
+            ->limit(5)
+            ->get();
+        $comments = $book->comments;
         return view('home.detailBuku', [
             'title' => $book->judul,
             'book' => $book,
+            'relatedBooks' => $relatedBooks,
+            'comments' => $comments,
+        ]);
+    }
+
+    public function detailAuthor($slug)
+    {
+        $author = Authors::where('slug', $slug)->firstOrFail();
+        $books = Buku::where('author_id', $author->id)->get();
+        return view('home.detailAuthor', [
+            'title' => $author->name,
+            'author' => $author,
+            'books' => $books
         ]);
     }
 
@@ -145,5 +158,41 @@ class HomeController extends Controller
         return view('home.progressISBN', [
             'title' => 'Lihat Progress ISBN',
         ]);
+    }
+
+    public function submitComment(Request $request, $bukuId)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'content' => 'required|string|max:1000',
+        ]);
+        \App\Models\Comment::create([
+            'buku_id' => $bukuId,
+            'parent_id' => null,
+            'name' => $request->name,
+            'email' => $request->email,
+            'content' => $request->content,
+            'is_approved' => false,
+        ]);
+        return back()->with('success', 'Komentar berhasil dikirim dan akan tampil setelah disetujui admin.');
+    }
+
+    public function submitReply(Request $request, $bukuId, $parentId)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'content' => 'required|string|max:1000',
+        ]);
+        \App\Models\Comment::create([
+            'buku_id' => $bukuId,
+            'parent_id' => $parentId,
+            'name' => $request->name,
+            'email' => $request->email,
+            'content' => $request->content,
+            'is_approved' => false,
+        ]);
+        return back()->with('success', 'Balasan komentar berhasil dikirim dan akan tampil setelah disetujui admin.');
     }
 }

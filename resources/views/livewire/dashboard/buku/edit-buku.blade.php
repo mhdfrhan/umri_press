@@ -11,6 +11,35 @@
         <h2 class="text-2xl font-bold mb-6">Edit Buku</h2>
 
         <form wire:submit.prevent="save" class="space-y-6">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                    <x-input-label class="block mb-2">
+                        Kategori
+                    </x-input-label>
+                    <select wire:model="kategori_id"
+                        class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
+                        <option value="">Pilih kategori...</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('kategori_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Penulis -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Penulis
+                    </x-input-label>
+                    <livewire:components.searchable-select :name="'author'" :items="$authorList" :placeholder="'Pilih penulis...'"
+                        :selected="$author_id" />
+                    @error('author_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
             <!-- Cover Image Upload -->
             <div>
                 <x-input-label class="block mb-2">
@@ -97,226 +126,208 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
+            </div>
 
-
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <!-- Kategori -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Kategori
-                        </x-input-label>
-                        <select wire:model="kategori_id"
-                            class="w-full rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500">
-                            <option value="">Pilih kategori...</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->nama }}</option>
-                            @endforeach
-                        </select>
-                        @error('kategori_id')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Penulis -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Penulis
-                        </x-input-label>
-                        <x-text-input type="text" wire:model="penulis" class="w-full block"
-                            placeholder="Nama penulis" />
-                        @error('penulis')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Institusi -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Institusi
-                        </x-input-label>
-                        <x-text-input type="text" wire:model="institusi" class="w-full block"
-                            placeholder="Nama institusi (opsional)" />
-                        @error('institusi')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- ISBN -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            ISBN
-                        </x-input-label>
-                        <x-text-input type="text" wire:model="isbn" class="block w-full"
-                            placeholder="978-0-123456-47-2" />
-                        @error('isbn')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Harga -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Harga
-                        </x-input-label>
-                        <div class="mt-1 relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-neutral-500 sm:text-sm">Rp</span>
-                            </div>
-                            <x-text-input type="number" wire:model="harga" class="pl-12 w-full block"
-                                placeholder="0" />
-                        </div>
-                        @error('harga')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Jumlah Halaman -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Jumlah Halaman
-                        </x-input-label>
-                        <x-text-input type="number" wire:model="jumlah_halaman" class="w-full block"
-                            placeholder="100" />
-                        @error('jumlah_halaman')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Tanggal Terbit -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Tanggal Terbit
-                        </x-input-label>
-                        <x-text-input type="date" wire:model="tanggal_terbit" class="w-full block" />
-                        @error('tanggal_terbit')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Ukuran -->
-                    <div>
-                        <x-input-label class="block mb-2">
-                            Ukuran
-                        </x-input-label>
-                        <x-text-input type="text" wire:model="ukuran" class="w-full block"
-                            placeholder="Contoh: 17.5 x 25 cm" />
-                        @error('ukuran')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
+            <div>
+                <x-input-label class="block mb-2">
+                    Daftar Isi <span class="text-red-500">*</span>
+                </x-input-label>
+                <div wire:ignore>
+                    <div id="daftar-isi" class="h-72 bg-white dark:bg-neutral-800">{!! $daftar_isi !!}</div>
                 </div>
+                @error('daftar_isi')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
 
-                <!-- Ketersediaan -->
-                <div class="mt-4">
-                    <label class="inline-flex items-center">
-                        <input type="checkbox" wire:model="ketersediaan"
-                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50"
-                            {{ $ketersediaan ? 'checked' : '' }}>
-                        <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tersedia</span>
-                    </label>
-                </div>
 
-                <!-- Marketplace Links -->
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Link Marketplace</h3>
-                        <p class="text-sm text-neutral-500 dark:text-neutral-400">Minimal pilih 1 marketplace</p>
-                    </div>
-
-                    <!-- Shopee -->
-                    <div class="space-y-2">
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" wire:model.live="marketplaces.shopee.active"
-                                class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Shopee</span>
-                        </label>
-                        @if ($marketplaces['shopee']['active'])
-                            <div>
-                                <x-text-input type="url" wire:model="marketplaces.shopee.link"
-                                    class="w-full block" placeholder="https://shopee.co.id/product/..." />
-                                @error('marketplaces.shopee.link')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Tokopedia -->
-                    <div class="space-y-2">
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" wire:model.live="marketplaces.tokopedia.active"
-                                class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tokopedia</span>
-                        </label>
-                        @if ($marketplaces['tokopedia']['active'])
-                            <div>
-                                <x-text-input type="url" wire:model="marketplaces.tokopedia.link"
-                                    class="w-full block" placeholder="https://www.tokopedia.com/product/..." />
-                                @error('marketplaces.tokopedia.link')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Bukalapak -->
-                    <div class="space-y-2">
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" wire:model.live="marketplaces.bukalapak.active"
-                                class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Bukalapak</span>
-                        </label>
-                        @if ($marketplaces['bukalapak']['active'])
-                            <div>
-                                <x-text-input type="url" wire:model="marketplaces.bukalapak.link"
-                                    class="w-full block" placeholder="https://www.bukalapak.com/p/..." />
-                                @error('marketplaces.bukalapak.link')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Lazada -->
-                    <div class="space-y-2">
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" wire:model.live="marketplaces.lazada.active"
-                                class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Lazada</span>
-                        </label>
-                        @if ($marketplaces['lazada']['active'])
-                            <div>
-                                <x-text-input type="url" wire:model="marketplaces.lazada.link"
-                                    class="w-full block" placeholder="https://www.lazada.co.id/products/..." />
-                                @error('marketplaces.lazada.link')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        @endif
-                    </div>
-
-                    @error('marketplaces')
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <!-- Institusi -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Institusi
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="institusi" class="w-full block"
+                        placeholder="Nama institusi (opsional)" />
+                    @error('institusi')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
 
-                {{-- draft --}}
-                <div class="mt-4">
-                    <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">Status</h3>
-                    <label class="inline-flex items-center">
-                        <input type="checkbox" wire:model="draft"
-                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
-                        <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Simpan sebagai
-                            draft</span>
-                    </label>
+                <!-- ISBN -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        ISBN
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="isbn" class="block w-full"
+                        placeholder="978-0-123456-47-2" />
+                    @error('isbn')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <!-- Submit Button -->
-                <div class="flex justify-end">
-                    <x-primary-button type="submit">
-                        Simpan Buku
-                    </x-primary-button>
+                <!-- Harga -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Harga
+                    </x-input-label>
+                    <div class="mt-1 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-neutral-500 sm:text-sm">Rp</span>
+                        </div>
+                        <x-text-input type="number" wire:model="harga" class="pl-12 w-full block" placeholder="0" />
+                    </div>
+                    @error('harga')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
+
+                <!-- Jumlah Halaman -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Jumlah Halaman
+                    </x-input-label>
+                    <x-text-input type="number" wire:model="jumlah_halaman" class="w-full block" placeholder="100" />
+                    @error('jumlah_halaman')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Tanggal Terbit -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Tanggal Terbit
+                    </x-input-label>
+                    <x-text-input type="date" wire:model="tanggal_terbit" class="w-full block" />
+                    @error('tanggal_terbit')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Ukuran -->
+                <div>
+                    <x-input-label class="block mb-2">
+                        Ukuran
+                    </x-input-label>
+                    <x-text-input type="text" wire:model="ukuran" class="w-full block"
+                        placeholder="Contoh: 17.5 x 25 cm" />
+                    @error('ukuran')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <!-- Ketersediaan -->
+            <div class="mt-4">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" wire:model="ketersediaan"
+                        class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50"
+                        {{ $ketersediaan ? 'checked' : '' }}>
+                    <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tersedia</span>
+                </label>
+            </div>
+
+            <!-- Marketplace Links -->
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Link Marketplace</h3>
+                    <p class="text-sm text-neutral-500 dark:text-neutral-400">Minimal pilih 1 marketplace</p>
+                </div>
+
+                <!-- Shopee -->
+                <div class="space-y-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" wire:model.live="marketplaces.shopee.active"
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Shopee</span>
+                    </label>
+                    @if ($marketplaces['shopee']['active'])
+                        <div>
+                            <x-text-input type="url" wire:model="marketplaces.shopee.link" class="w-full block"
+                                placeholder="https://shopee.co.id/product/..." />
+                            @error('marketplaces.shopee.link')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Tokopedia -->
+                <div class="space-y-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" wire:model.live="marketplaces.tokopedia.active"
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Tokopedia</span>
+                    </label>
+                    @if ($marketplaces['tokopedia']['active'])
+                        <div>
+                            <x-text-input type="url" wire:model="marketplaces.tokopedia.link"
+                                class="w-full block" placeholder="https://www.tokopedia.com/product/..." />
+                            @error('marketplaces.tokopedia.link')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Bukalapak -->
+                <div class="space-y-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" wire:model.live="marketplaces.bukalapak.active"
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Bukalapak</span>
+                    </label>
+                    @if ($marketplaces['bukalapak']['active'])
+                        <div>
+                            <x-text-input type="url" wire:model="marketplaces.bukalapak.link"
+                                class="w-full block" placeholder="https://www.bukalapak.com/p/..." />
+                            @error('marketplaces.bukalapak.link')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Lazada -->
+                <div class="space-y-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" wire:model.live="marketplaces.lazada.active"
+                            class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Lazada</span>
+                    </label>
+                    @if ($marketplaces['lazada']['active'])
+                        <div>
+                            <x-text-input type="url" wire:model="marketplaces.lazada.link" class="w-full block"
+                                placeholder="https://www.lazada.co.id/products/..." />
+                            @error('marketplaces.lazada.link')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
+                </div>
+
+                @error('marketplaces')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            {{-- draft --}}
+            <div class="mt-4">
+                <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">Status</h3>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" wire:model="draft"
+                        class="rounded border-neutral-300 text-cgreen-500 shadow-sm focus:border-cgreen-300 focus:ring focus:ring-cgreen-200 focus:ring-opacity-50">
+                    <span class="ml-2 text-neutral-700 select-none dark:text-neutral-300">Simpan sebagai
+                        draft</span>
+                </label>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <x-primary-button type="submit">
+                    Simpan Buku
+                </x-primary-button>
+            </div>
         </form>
     </div>
 
@@ -366,7 +377,7 @@
                         reader.onload = (e) => {
                             const image = document.getElementById('cropImage');
                             image.src = e.target.result;
-                            
+
                             if (this.cropper) {
                                 this.cropper.destroy();
                             }
@@ -541,6 +552,9 @@
                     }
                     if (!this.editors.sinopsis) {
                         this.initializeEditor('sinopsis', quillConfig, component);
+                    }
+                    if (!this.editors['daftar-isi']) {
+                        this.initializeEditor('daftar-isi', quillConfig, component);
                     }
                 },
 

@@ -4,7 +4,8 @@
     <div class="mb-6 flex justify-between items-center">
         <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Daftar Penulis</h2>
         <div class="flex flex-wrap gap-3">
-            <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'authorModal')" wire:click="resetForm" class="flex items-center gap-2">
+            <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'authorModal')"
+                wire:click="resetForm" class="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -48,6 +49,10 @@
                     <tr>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                            Gambar
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
                             Nama
                         </th>
                         <th scope="col"
@@ -66,44 +71,47 @@
                 </thead>
                 <tbody class="bg-white dark:bg-neutral-800 divide-y divide-neutral-200 dark:divide-neutral-700">
                     @forelse ($authors as $author)
-                        <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors duration-200">
-                            <td class="px-6 py-4">
-                                <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                                    {{ $author->name }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2">
-                                    {{ $author->description }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-neutral-500 dark:text-neutral-400">
-                                    {{ $author->buku_count }} Buku
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                <div class="flex space-x-2">
-                                    <button x-data=""
-                                        x-on:click.prevent="$dispatch('open-modal', 'authorModal')" wire:click="edit({{ $author->id }})"
-                                        class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                        Edit
-                                    </button>
-                                    <button x-data=""
-                                        x-on:click.prevent="$dispatch('open-modal', 'showDeleteModal')"
-                                        wire:click="confirmDelete({{ $author->id }})"
-                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        Hapus
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors duration-200">
+                        <td class="px-6 py-4">
+                            <img src="{{ asset($author->image) }}" alt="Gambar Penulis"
+                                class="w-12 h-12 rounded-full object-cover" loading="lazy">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                {{ $author->name }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2">
+                                {{ $author->description }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-neutral-500 dark:text-neutral-400">
+                                {{ $author->buku_count }} Buku
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <div class="flex space-x-2">
+                                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'authorModal')"
+                                    wire:click="edit({{ $author->id }})"
+                                    class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                    Edit
+                                </button>
+                                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'showDeleteModal')"
+                                    wire:click="confirmDelete({{ $author->id }})"
+                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    Hapus
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="4" class="px-6 py-4 text-center text-neutral-500 dark:text-neutral-400">
-                                Tidak ada data penulis
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 text-center text-neutral-500 dark:text-neutral-400">
+                            Tidak ada data penulis
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -124,10 +132,30 @@
 
             <form wire:submit.prevent="{{ $authorId ? 'update' : 'save' }}" class="space-y-4">
                 <div>
+                    @if ($image)
+                    <div class="mb-2">
+                        <img src="{{ $image->temporaryUrl() }}" alt="Gambar Penulis"
+                            class="w-24 h-24 rounded-lg object-cover">
+                    </div>
+                    @elseif ($imagePreview)
+                    <div class="mb-2">
+                        <img src="{{ asset($imagePreview) }}" alt="Gambar Penulis"
+                            class="w-24 h-24 rounded-lg object-cover">
+                    </div>
+                    @endif
+
+                    <x-input-label>Gambar <span class="text-red-500">*</span></x-input-label>
+                    <x-text-input type="file" wire:model="image" class="w-full mt-1" />
+                    @error('image')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
                     <x-input-label>Nama <span class="text-red-500">*</span></x-input-label>
                     <x-text-input type="text" wire:model="name" class="w-full mt-1" />
                     @error('name')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -137,7 +165,7 @@
                         class="w-full mt-1 rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 focus:border-cgreen-500 focus:ring-cgreen-500"
                         rows="4"></textarea>
                     @error('description')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
 
