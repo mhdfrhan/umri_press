@@ -91,11 +91,13 @@ class HomeController extends Controller
 
     public function detailBuku($slug)
     {
-        $book = Buku::with(['kategori', 'author', 'comments.replies'])->where('slug', $slug)->where('status', true)->firstOrFail();
+        $book = Buku::with(['kategori', 'authors', 'comments.replies'])->where('slug', $slug)->where('status', true)->firstOrFail();
         $relatedBooks = Buku::where('status', true)
             ->where('id', '!=', $book->id)
             ->where(function ($query) use ($book) {
-                $query->where('author_id', $book->author_id)
+                $query->whereHas('authors', function ($q) use ($book) {
+                    $q->whereIn('authors.id', $book->authors->pluck('id'));
+                })
                     ->orWhere('kategori_id', $book->kategori_id);
             })
             ->limit(5)
@@ -112,7 +114,7 @@ class HomeController extends Controller
     public function detailAuthor($slug)
     {
         $author = Authors::where('slug', $slug)->firstOrFail();
-        $books = Buku::where('author_id', $author->id)->get();
+        $books = $author->bukus;
         return view('home.detailAuthor', [
             'title' => $author->name,
             'author' => $author,

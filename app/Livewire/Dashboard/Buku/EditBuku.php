@@ -35,7 +35,9 @@ class EditBuku extends Component
     public $ketersediaan = true;
     public $categories;
     public $oldCover;
-    public $author_id = null;
+    public $authorList = [];
+    public $allAuthors = [];
+    public $daftar_isi = '';
     public $oldThumbnail;
     public $marketplaces = [
         'shopee' => ['active' => false, 'link' => ''],
@@ -43,8 +45,6 @@ class EditBuku extends Component
         'bukalapak' => ['active' => false, 'link' => ''],
         'lazada' => ['active' => false, 'link' => ''],
     ];
-    public $authorList = [];
-    public $daftar_isi = '';
 
     protected $listeners = [
         'set-deskripsi' => 'setDeskripsi',
@@ -85,10 +85,8 @@ class EditBuku extends Component
             }
         }
 
-        $this->authorList = Authors::all()
-            ->pluck('name', 'id')
-            ->toArray();
-        $this->author_id = $buku->author_id;
+        $this->allAuthors = Authors::all()->pluck('name', 'id')->toArray();
+        $this->authorList = $buku->authors()->pluck('authors.id')->toArray();
         $this->daftar_isi = $buku->daftar_isi;
     }
 
@@ -109,8 +107,7 @@ class EditBuku extends Component
             'kategori_id' => 'required',
             'ukuran' => 'required',
             'marketplaces' => 'nullable',
-            'authorList' => 'required',
-            'author_id' => 'required|exists:authors,id',
+            'authorList' => 'required|array|min:1',
         ];
     }
 
@@ -136,12 +133,8 @@ class EditBuku extends Component
 
     public function handleAuthorSelected($data)
     {
-        if ($data['name'] === 'author') {
-            $this->author_id = $data['value'];
-            $author = Authors::find($data['value']);
-            if ($author) {
-                $this->institusi = $author->institusi ?? null;
-            }
+        if ($data['name'] === 'authors') {
+            $this->authorList = is_array($data['value']) ? $data['value'] : [];
         }
     }
 
@@ -194,7 +187,6 @@ class EditBuku extends Component
                 'daftar_isi' => $this->daftar_isi,
                 'isbn' => $this->isbn,
                 'harga' => $this->harga,
-                'author_id' => $this->author_id,
                 'institusi' => $this->institusi,
                 'ukuran' => $this->ukuran,
                 'ketersediaan' => $this->ketersediaan,
@@ -206,6 +198,8 @@ class EditBuku extends Component
                 'cover' => $this->cover ? $coverPath : $buku->cover,
                 'cover_thumbnail' => $this->thumbnail ? $thumbnailPath : $buku->cover_thumbnail,
             ]);
+
+            $buku->authors()->sync($this->authorList);
 
             DB::commit();
 

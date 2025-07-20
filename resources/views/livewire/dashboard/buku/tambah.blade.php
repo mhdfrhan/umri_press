@@ -32,9 +32,9 @@
                     <x-input-label class="block mb-2">
                         Penulis
                     </x-input-label>
-                    <livewire:components.searchable-select :name="'author'" :items="$authorList" :placeholder="'Pilih penulis...'"
-                        :selected="$author_id" />
-                    @error('author_id')
+                    <livewire:components.searchable-select name="authors" :items="$allAuthors"
+                        placeholder="Pilih author..." :selected="$authorList" :multiple="true" />
+                    @error('authorList')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>

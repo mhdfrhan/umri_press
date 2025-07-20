@@ -34,7 +34,7 @@ class Tambah extends Component
     public $institusi;
     public $ukuran;
     public $ketersediaan = true;
-    public $author_id = null;
+    public $authorList = [];
     public $categories;
     public $marketplaces = [
         'shopee' => ['active' => false, 'link' => ''],
@@ -42,8 +42,9 @@ class Tambah extends Component
         'bukalapak' => ['active' => false, 'link' => ''],
         'lazada' => ['active' => false, 'link' => ''],
     ];
-    public $authorList = [];
+    public $allAuthors = [];
     public $daftar_isi = '';
+    public $selectedAuthors = [];
 
     protected $listeners = [
         'set-deskripsi' => 'setDeskripsi',
@@ -77,8 +78,7 @@ class Tambah extends Component
             //     }
             // }],
             'marketplaces' => 'nullable',
-            'authorList' => 'required',
-            'author_id' => 'required|exists:authors,id',
+            'authorList' => 'required|array|min:1',
         ];
 
         foreach ($this->marketplaces as $marketplace => $data) {
@@ -119,6 +119,7 @@ class Tambah extends Component
         'kategori_id.required' => 'Kategori harus dipilih.',
         'ukuran.required' => 'Ukuran buku harus diisi.',
         'authorList.required' => 'Penulis buku harus diisi.',
+        'authorList.min' => 'Pilih minimal 1 penulis.',
         'daftar_isi.required' => 'Daftar isi buku harus diisi.',
         'daftar_isi.min' => 'Daftar isi buku minimal 10 karakter.',
     ];
@@ -126,9 +127,8 @@ class Tambah extends Component
     public function mount()
     {
         $this->categories = Kategori::all();
-        $this->authorList = Authors::all()
-            ->pluck('name', 'id')
-            ->toArray();
+        $this->authorList = [];
+        $this->allAuthors = Authors::all()->pluck('name', 'id')->toArray();
     }
 
     public function updatedJudul($value)
@@ -147,12 +147,8 @@ class Tambah extends Component
 
     public function handleAuthorSelected($data)
     {
-        if ($data['name'] === 'author') {
-            $this->author_id = $data['value'];
-            $author = Authors::find($data['value']);
-            if ($author) {
-                $this->institusi = $author->institusi ?? null;
-            }
+        if ($data['name'] === 'authors') {
+            $this->authorList = is_array($data['value']) ? $data['value'] : [];
         }
     }
 
@@ -200,7 +196,6 @@ class Tambah extends Component
                 ->toArray();
 
             $buku = Buku::create([
-                'author_id' => $this->author_id,
                 'kategori_id' => $this->kategori_id,
                 'cover' => $coverPath,
                 'cover_thumbnail' => $thumbnailPath,
@@ -219,6 +214,8 @@ class Tambah extends Component
                 'marketplace_links' => json_encode($marketplaceLinks),
                 'status' => $this->draft ? false : true
             ]);
+
+            $buku->authors()->sync($this->authorList);
 
             DB::commit();
 

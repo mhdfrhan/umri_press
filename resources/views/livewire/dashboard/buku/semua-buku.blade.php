@@ -116,7 +116,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <button wire:click='changeStatus("{{ $book->slug }}")'
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                     {{ $book->status === 1
                                         ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
                                         : 'bg-cgreen-100 text-cgreen-800 dark:bg-cgreen-800/20 dark:text-cgreen-400' }}">
@@ -197,7 +197,7 @@
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">Status:</span>
                                 <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                 {{ $selectedBook->status === 1
                                     ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
                                     : 'bg-cgreen-100 text-cgreen-800 dark:bg-cgreen-800/20 dark:text-cgreen-400' }}">
@@ -207,7 +207,7 @@
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">Ketersediaan:</span>
                                 <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                 {{ $selectedBook->ketersediaan === 1
                                     ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400'
                                     : 'bg-cgreen-100 text-cgreen-800 dark:bg-cgreen-800/20 dark:text-cgreen-400' }}">
@@ -219,8 +219,21 @@
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">Penulis:</span>
-                                <span
-                                    class="text-neutral-900 dark:text-neutral-100">{{ $selectedBook->author->name }}</span>
+                                <span class="text-neutral-900 dark:text-neutral-100">
+                                    @php
+
+                                        $authors = explode(',', $selectedBook->authors->pluck('name')->implode(', '));
+
+                                        foreach ($authors as $i => $author) {
+                                            if ($i < count($authors) - 1) {
+                                                echo $author . ', ';
+                                            } else {
+                                                echo $author;
+                                            }
+                                        }
+
+                                    @endphp
+                                </span>
                             </div>
                             <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">ISBN:</span>

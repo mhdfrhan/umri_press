@@ -108,11 +108,11 @@
                                         class="w-12 object-cover rounded-lg">
                                     <div class="flex-1 min-w-0">
                                         <p
-                                            class="text-sm font-medium text-neutral-900 dark:text-neutral-100 line-clamp-2">
+                                            class="text-sm font-medium text-neutral-900 dark:text-neutral-100 line-clamp-2 capitalize">
                                             {{ $book->judul }}
                                         </p>
-                                        <p class="text-sm text-neutral-500 dark:text-neutral-400">
-                                            {{ $book->author->name }}
+                                        <p class="text-sm text-neutral-500 dark:text-neutral-400 capitalize">
+                                            {{ $book->authors->first()->name }}
                                         </p>
                                         <p class="text-xs text-neutral-500 dark:text-neutral-400">
                                             {{ \Carbon\Carbon::parse($book->tanggal_terbit)->format('d F Y') }}

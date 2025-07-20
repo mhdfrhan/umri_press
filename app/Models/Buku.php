@@ -23,9 +23,9 @@ class Buku extends Model
         return $this->belongsTo(Kategori::class);
     }
 
-    public function author()
+    public function authors()
     {
-        return $this->belongsTo(Authors::class, 'author_id');
+        return $this->belongsToMany(Authors::class, 'author_buku', 'buku_id', 'author_id');
     }
 
     public function comments()

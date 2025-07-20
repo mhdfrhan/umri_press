@@ -77,7 +77,7 @@
                                 class="w-12 h-12 rounded-full object-cover" loading="lazy">
                         </td>
                         <td class="px-6 py-4">
-                            <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                            <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100 capitalize">
                                 {{ $author->name }}
                             </div>
                         </td>

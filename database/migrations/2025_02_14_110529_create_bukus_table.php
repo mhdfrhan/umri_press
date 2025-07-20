@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
+            // author bisa lebih dari satu
+            // $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
             $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
             $table->string('judul');
             $table->string('slug')->unique();

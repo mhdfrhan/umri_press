@@ -11,7 +11,7 @@
                     </div>
                     <!-- Author Info -->
                     <div class="flex-1 text-center md:text-left">
-                        <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">{{ $author->name }}
+                        <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2 capitalize">{{ $author->name }}
                         </h1>
                         <p class="text-sm text-neutral-500 dark:text-neutral-400">Bergabung sejak {{ $author->created_at->format('d M Y') }}</p>
                         <div
